@@ -360,7 +360,7 @@ else:
         st.text_input('ホワイト会員（1%還元）', int((Decimal(price) / Decimal(1 + tax)) * Decimal(white)), key=2)
     with col02:
         st.text_input('シルバー会員（1%還元）', int((Decimal(price) / Decimal(1 + tax)) * Decimal(silver)), key=3)
-    col03, col04 = st.beta_columns([1,1])
+    col03, col04 = st.columns([1,1])
     with col03:
         st.text_input('ゴールド会員（2%還元）', int((Decimal(price) / Decimal(1 + tax)) * Decimal(gold)), key=4)
     with col04:
