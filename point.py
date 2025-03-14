@@ -31,6 +31,13 @@ if selected_item == '受注設定':
     rank = st.sidebar.selectbox('会員ランク', ['シルバー会員', 'ゴールド会員', 'ダイヤモンド会員', 'ホワイト会員'])
     point = st.sidebar.number_input('利用ポイント', value=0, key=0)
     product = st.sidebar.number_input('商品数', min_value=0, max_value=10, value=1, key=99)
+    multiplier = st.sidebar.selectbox('イベント ポイント倍率', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], index=0)
+
+    if multiplier != 1:
+        diamond = 0.03*multiplier
+        gold = 0.02*multiplier
+        silver = 0.01*multiplier
+        white = 0.01*multiplier
 
     if rank == 'ダイヤモンド会員':
         rank_per = diamond
