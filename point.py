@@ -10,7 +10,7 @@ st.title('付与ポイント計算ツール')
 
 getcontext().prec = 5
 
-# col01, col02, col03 = st.columns(3)
+# col01, col02, col03 = st.beta_columns(3)
 # with col01:
 #     price01 = st.number_input('税込金額', 0, 999999, 0)
 # with col02:
@@ -31,6 +31,13 @@ if selected_item == '受注設定':
     rank = st.sidebar.selectbox('会員ランク', ['シルバー会員', 'ゴールド会員', 'ダイヤモンド会員', 'ホワイト会員'])
     point = st.sidebar.number_input('利用ポイント', value=0, key=0)
     product = st.sidebar.number_input('商品数', min_value=0, max_value=10, value=1, key=99)
+    multiplier = st.sidebar.selectbox('イベント ポイント倍率', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], index=0)
+
+    if multiplier != 1:
+        diamond = 0.03*multiplier
+        gold = 0.02*multiplier
+        silver = 0.01*multiplier
+        white = 0.01*multiplier
 
     if rank == 'ダイヤモンド会員':
         rank_per = diamond
@@ -67,7 +74,7 @@ if selected_item == '受注設定':
 
     if 0 < product >= 2:
         check02 = st.checkbox('ビーンズクラブ会員対象品', key=1002)
-        col07, col05, col05_1, col05_2, col06, col08 = st.columns([2,2,2,2,2,2])
+        col07, col05, col05_1, col05_2, col06, col08 = st.beta_columns([2,2,2,2,2,2])
         with col05:
             item02 = st.text_input('税込価格', value=0, key=5)
         with col05_1:
@@ -85,7 +92,7 @@ if selected_item == '受注設定':
 
     if 0 < product >= 3:
         check03 = st.checkbox('ビーンズクラブ会員対象品', key=1003)
-        col11, col09, col09_1, col09_2, col10, col12 = st.columns([2,2,2,2,2,2])
+        col11, col09, col09_1, col09_2, col10, col12 = st.beta_columns([2,2,2,2,2,2])
         with col09:
             item03 = st.text_input('税込価格', value=0, key=9)
         with col09_1:
@@ -103,7 +110,7 @@ if selected_item == '受注設定':
 
     if 0 < product >= 4:
         check04 = st.checkbox('ビーンズクラブ会員対象品', key=1004)
-        col15, col13, col13_1, col13_2, col14, col16 = st.columns([2,2,2,2,2,2])
+        col15, col13, col13_1, col13_2, col14, col16 = st.beta_columns([2,2,2,2,2,2])
         with col13:
             item04 = st.text_input('税込価格', value=0, key=13)
         with col13_1:
@@ -121,7 +128,7 @@ if selected_item == '受注設定':
 
     if 0 < product >= 5:
         check05 = st.checkbox('ビーンズクラブ会員対象品', key=1005)
-        col19, col17, col17_1, col17_2, col18, col20 = st.columns([2,2,2,2,2,2])
+        col19, col17, col17_1, col17_2, col18, col20 = st.beta_columns([2,2,2,2,2,2])
         with col17:
             item05 = st.text_input('税込価格', value=0, key=17)
         with col17_1:
@@ -139,7 +146,7 @@ if selected_item == '受注設定':
 
     if 0 < product >= 6:
         check06 = st.checkbox('ビーンズクラブ会員対象品', key=1006)
-        col23, col21, col21_1, col21_2, col22, col24 = st.columns([2,2,2,2,2,2])
+        col23, col21, col21_1, col21_2, col22, col24 = st.beta_columns([2,2,2,2,2,2])
         with col21:
             item06 = st.text_input('税込価格', value=0, key=21)
         with col21_1:
@@ -157,7 +164,7 @@ if selected_item == '受注設定':
 
     if 0 < product >= 7:
         check07 = st.checkbox('ビーンズクラブ会員対象品', key=1007)
-        col27, col25, col25_1, col25_2, col26, col28 = st.columns([2,2,2,2,2,2])
+        col27, col25, col25_1, col25_2, col26, col28 = st.beta_columns([2,2,2,2,2,2])
         with col25:
             item07 = st.text_input('税込価格', value=0, key=25)
         with col25_1:
@@ -175,7 +182,7 @@ if selected_item == '受注設定':
 
     if 0 < product >= 8:
         check08 = st.checkbox('ビーンズクラブ会員対象品', key=1008)
-        col31, col29, col29_1, col29_2, col30, col32 = st.columns([2,2,2,2,2,2])
+        col31, col29, col29_1, col29_2, col30, col32 = st.beta_columns([2,2,2,2,2,2])
         with col29:
             item08 = st.text_input('税込価格', value=0, key=29)
         with col29_1:
@@ -193,7 +200,7 @@ if selected_item == '受注設定':
 
     if 0 < product >= 9:
         check09 = st.checkbox('ビーンズクラブ会員対象品', key=1009)
-        col35, col33, col33_1, col33_2, col34, col36 = st.columns([2,2,2,2,2,2])
+        col35, col33, col33_1, col33_2, col34, col36 = st.beta_columns([2,2,2,2,2,2])
         with col33:
             item09 = st.text_input('税込価格', value=0, key=33)
         with col33_1:
@@ -211,7 +218,7 @@ if selected_item == '受注設定':
 
     if 0 < product >= 10:
         check10 = st.checkbox('ビーンズクラブ会員対象品', key=1010)
-        col39, col37, col37_1, col37_2, col38, col40 = st.columns([2,2,2,2,2,2])
+        col39, col37, col37_1, col37_2, col38, col40 = st.beta_columns([2,2,2,2,2,2])
         with col37:
             item10 = st.text_input('税込価格', value=0, key=37)
         with col37_1:
@@ -371,7 +378,7 @@ else:
     ''', unsafe_allow_html=True)
 
     st.subheader('イベント企画計算用')
-    col05, col06, col07, col08 = st.columns([1,1,1,1])
+    col05, col06, col07, col08 = st.beta_columns([1,1,1,1])
     with col05:
         st.text_input('2%還元', int((Decimal(price) / Decimal(1 + tax)) * Decimal(0.02)), key=12)
     with col06:
@@ -380,7 +387,7 @@ else:
         st.text_input('4%還元', int((Decimal(price) / Decimal(1 + tax)) * Decimal(0.04)), key=14)
     with col08:
         st.text_input('5%還元', int((Decimal(price) / Decimal(1 + tax)) * Decimal(0.05)), key=15)
-    col09, col10, col11, col12 = st.columns([1,1,1,1])
+    col09, col10, col11, col12 = st.beta_columns([1,1,1,1])
     with col09:
         st.text_input('6%還元', int((Decimal(price) / Decimal(1 + tax)) * Decimal(0.06)), key=16)
     with col10:
@@ -389,7 +396,7 @@ else:
         st.text_input('8%還元', int((Decimal(price) / Decimal(1 + tax)) * Decimal(0.08)), key=18)
     with col12:
         st.text_input('9%還元', int((Decimal(price) / Decimal(1 + tax)) * Decimal(0.09)), key=19)
-    col13, col14, col15, col16 = st.columns([1,1,1,1])
+    col13, col14, col15, col16 = st.beta_columns([1,1,1,1])
     with col13:
         st.text_input('10%還元', int((Decimal(price) / Decimal(1 + tax)) * Decimal(0.10)), key=20)
     with col14:
@@ -398,7 +405,7 @@ else:
         st.text_input('12%還元', int((Decimal(price) / Decimal(1 + tax)) * Decimal(0.12)), key=22)
     with col16:
         st.text_input('13%還元', int((Decimal(price) / Decimal(1 + tax)) * Decimal(0.13)), key=23)
-    col17, col18, col19, col20 = st.columns([1,1,1,1])
+    col17, col18, col19, col20 = st.beta_columns([1,1,1,1])
     with col17:
         st.text_input('14%還元', int((Decimal(price) / Decimal(1 + tax)) * Decimal(0.14)), key=24)
     with col18:
@@ -407,7 +414,7 @@ else:
         st.text_input('16%還元', int((Decimal(price) / Decimal(1 + tax)) * Decimal(0.16)), key=26)
     with col20:
         st.text_input('17%還元', int((Decimal(price) / Decimal(1 + tax)) * Decimal(0.17)), key=27)
-    col21, col22, col23, col24 = st.columns([1,1,1,1])
+    col21, col22, col23, col24 = st.beta_columns([1,1,1,1])
     with col21:
         st.text_input('18%還元', int((Decimal(price) / Decimal(1 + tax)) * Decimal(0.18)), key=28)
     with col22:
