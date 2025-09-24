@@ -63,14 +63,52 @@ if selected_item == '受注設定':
             item01 = st.text_input('税込価格', value=0, key=1)
         with col01_1:
             if check01 == True:
-                item01 = st.text_input('割引後価格',  math.floor((Decimal(item01) * Decimal(beans_club))), key=111)
+                discounted_price = math.floor((Decimal(item01) * Decimal(beans_club)))
+                st.markdown(f"""
+                <div style="font-size: 16px;">
+                    <div style="color: #666; font-size: 14px;">割引後価格</div>
+                    <div style="font-size: 20px; font-weight: normal; padding: 10px 0px;">{discounted_price:,}</div>
+                </div>
+                """, unsafe_allow_html=True)
         with col02:
             amount01 = st.text_input('数量', value=0, key=2)
         with col04:
-            point01 = math.floor(int((Decimal(item01) / Decimal(1+tax01)) * Decimal(rank_per)))
-            point01_ = st.text_input('商品ポイント', Decimal(point01) * Decimal(amount01), key=4)
+            if check01 == True:
+                # 割引後価格から計算
+                discounted_price = math.floor((Decimal(item01) * Decimal(beans_club)))
+                point01 = math.floor(int((Decimal(discounted_price) / Decimal(1+tax01)) * Decimal(rank_per)))
+            else:
+                # 通常価格から計算
+                point01 = math.floor(int((Decimal(item01) / Decimal(1+tax01)) * Decimal(rank_per)))
+            point01_ = Decimal(point01) * Decimal(amount01)
+            st.markdown(f"""
+            <div style="font-size: 16px;">
+                <div style="color: #666; font-size: 14px;">商品ポイント</div>
+                <div style="font-size: 20px; font-weight: normal; padding: 10px 0px;">{point01_:,}</div>
+            </div>
+            """, unsafe_allow_html=True)
         with col01_2:
-            st.text_input('税抜価格', math.floor(int(Decimal(item01) / Decimal(1+tax01))), key=2001)
+            try:
+                if check01 == True:
+                    # 割引後価格から税抜き価格を計算
+                    discounted_price = math.floor((Decimal(item01) * Decimal(beans_club)))
+                    tax_excluded_price = math.floor(int(Decimal(discounted_price) / Decimal(1+tax01)))
+                else:
+                    # 通常価格から税抜き価格を計算
+                    tax_excluded_price = math.floor(int(Decimal(item01) / Decimal(1+tax01)))
+                st.markdown(f"""
+                <div style="font-size: 16px;">
+                    <div style="color: #666; font-size: 14px;">税抜価格</div>
+                    <div style="font-size: 20px; font-weight: normal; padding: 10px 0px;">{tax_excluded_price:,}</div>
+                </div>
+                """, unsafe_allow_html=True)
+            except:
+                st.markdown(f"""
+                <div style="font-size: 16px;">
+                    <div style="color: #666; font-size: 14px;">税抜価格</div>
+                    <div style="font-size: 20px; font-weight: normal; padding: 10px 0px;">0</div>
+                </div>
+                """, unsafe_allow_html=True)
 
     if 0 < product >= 2:
         check02 = st.checkbox('ビーンズクラブ会員対象品', key=1002)
@@ -79,16 +117,54 @@ if selected_item == '受注設定':
             item02 = st.text_input('税込価格', value=0, key=5)
         with col05_1:
             if check02 == True:
-                item02 = st.text_input('割引後価格',  math.floor((Decimal(item02) * Decimal(beans_club))), key=222)
+                discounted_price02 = math.floor((Decimal(item02) * Decimal(beans_club)))
+                st.markdown(f"""
+                <div style="font-size: 16px;">
+                    <div style="color: #666; font-size: 14px;">割引後価格</div>
+                    <div style="font-size: 20px; font-weight: normal; padding: 10px 0px;">{discounted_price02:,}</div>
+                </div>
+                """, unsafe_allow_html=True)
         with col06:
             amount02 = st.text_input('数量', value=0, key=6)
         with col07:
             tax02 = st.selectbox('税率', [0.08, 0.1], key=7)
         with col08:
-            point02 = math.floor(int((Decimal(item02) / Decimal(1+tax02)) * Decimal(rank_per)))
-            point02_ = st.text_input('商品ポイント', Decimal(point02) * Decimal(amount02), key=8)
+            if check02 == True:
+                # 割引後価格から計算
+                discounted_price02 = math.floor((Decimal(item02) * Decimal(beans_club)))
+                point02 = math.floor(int((Decimal(discounted_price02) / Decimal(1+tax02)) * Decimal(rank_per)))
+            else:
+                # 通常価格から計算
+                point02 = math.floor(int((Decimal(item02) / Decimal(1+tax02)) * Decimal(rank_per)))
+            point02_ = Decimal(point02) * Decimal(amount02)
+            st.markdown(f"""
+            <div style="font-size: 16px;">
+                <div style="color: #666; font-size: 14px;">商品ポイント</div>
+                <div style="font-size: 20px; font-weight: normal; padding: 10px 0px;">{point02_:,}</div>
+            </div>
+            """, unsafe_allow_html=True)
         with col05_2:
-            st.text_input('税抜価格', math.floor(int(Decimal(item02) / Decimal(1+tax02))), key=2002)
+            try:
+                if check02 == True:
+                    # 割引後価格から税抜き価格を計算
+                    discounted_price02 = math.floor((Decimal(item02) * Decimal(beans_club)))
+                    tax_excluded_price02 = math.floor(int(Decimal(discounted_price02) / Decimal(1+tax02)))
+                else:
+                    # 通常価格から税抜き価格を計算
+                    tax_excluded_price02 = math.floor(int(Decimal(item02) / Decimal(1+tax02)))
+                st.markdown(f"""
+                <div style="font-size: 16px;">
+                    <div style="color: #666; font-size: 14px;">税抜価格</div>
+                    <div style="font-size: 20px; font-weight: normal; padding: 10px 0px;">{tax_excluded_price02:,}</div>
+                </div>
+                """, unsafe_allow_html=True)
+            except:
+                st.markdown(f"""
+                <div style="font-size: 16px;">
+                    <div style="color: #666; font-size: 14px;">税抜価格</div>
+                    <div style="font-size: 20px; font-weight: normal; padding: 10px 0px;">0</div>
+                </div>
+                """, unsafe_allow_html=True)
 
     if 0 < product >= 3:
         check03 = st.checkbox('ビーンズクラブ会員対象品', key=1003)
@@ -97,16 +173,54 @@ if selected_item == '受注設定':
             item03 = st.text_input('税込価格', value=0, key=9)
         with col09_1:
             if check03 == True:
-                item03 = st.text_input('割引後価格', math.floor((Decimal(item03) * Decimal(beans_club))), key=333)
+                discounted_price03 = math.floor((Decimal(item03) * Decimal(beans_club)))
+                st.markdown(f"""
+                <div style="font-size: 16px;">
+                    <div style="color: #666; font-size: 14px;">割引後価格</div>
+                    <div style="font-size: 20px; font-weight: normal; padding: 10px 0px;">{discounted_price03:,}</div>
+                </div>
+                """, unsafe_allow_html=True)
         with col10:
             amount03 = st.text_input('数量', value=0, key=10)
         with col11:
             tax03 = st.selectbox('税率', [0.08, 0.1], key=11)
         with col12:
-            point03 = math.floor(int((Decimal(item03) / Decimal(1+tax03)) * Decimal(rank_per)))
-            point03_ = st.text_input('商品ポイント', Decimal(point03) * Decimal(amount03), key=12)
+            if check03 == True:
+                # 割引後価格から計算
+                discounted_price03 = math.floor((Decimal(item03) * Decimal(beans_club)))
+                point03 = math.floor(int((Decimal(discounted_price03) / Decimal(1+tax03)) * Decimal(rank_per)))
+            else:
+                # 通常価格から計算
+                point03 = math.floor(int((Decimal(item03) / Decimal(1+tax03)) * Decimal(rank_per)))
+            point03_ = Decimal(point03) * Decimal(amount03)
+            st.markdown(f"""
+            <div style="font-size: 16px;">
+                <div style="color: #666; font-size: 14px;">商品ポイント</div>
+                <div style="font-size: 20px; font-weight: normal; padding: 10px 0px;">{point03_:,}</div>
+            </div>
+            """, unsafe_allow_html=True)
         with col09_2:
-            st.text_input('税抜価格', math.floor(int(Decimal(item03) / Decimal(1+tax03))), key=2003)
+            try:
+                if check03 == True:
+                    # 割引後価格から税抜き価格を計算
+                    discounted_price03 = math.floor((Decimal(item03) * Decimal(beans_club)))
+                    tax_excluded_price03 = math.floor(int(Decimal(discounted_price03) / Decimal(1+tax03)))
+                else:
+                    # 通常価格から税抜き価格を計算
+                    tax_excluded_price03 = math.floor(int(Decimal(item03) / Decimal(1+tax03)))
+                st.markdown(f"""
+                <div style="font-size: 16px;">
+                    <div style="color: #666; font-size: 14px;">税抜価格</div>
+                    <div style="font-size: 20px; font-weight: normal; padding: 10px 0px;">{tax_excluded_price03:,}</div>
+                </div>
+                """, unsafe_allow_html=True)
+            except:
+                st.markdown(f"""
+                <div style="font-size: 16px;">
+                    <div style="color: #666; font-size: 14px;">税抜価格</div>
+                    <div style="font-size: 20px; font-weight: normal; padding: 10px 0px;">0</div>
+                </div>
+                """, unsafe_allow_html=True)
 
     if 0 < product >= 4:
         check04 = st.checkbox('ビーンズクラブ会員対象品', key=1004)
@@ -115,16 +229,54 @@ if selected_item == '受注設定':
             item04 = st.text_input('税込価格', value=0, key=13)
         with col13_1:
             if check04 == True:
-                item04 = st.text_input('割引後価格',  math.floor((Decimal(item04) * Decimal(beans_club))), key=444)
+                discounted_price04 = math.floor((Decimal(item04) * Decimal(beans_club)))
+                st.markdown(f"""
+                <div style="font-size: 16px;">
+                    <div style="color: #666; font-size: 14px;">割引後価格</div>
+                    <div style="font-size: 20px; font-weight: normal; padding: 10px 0px;">{discounted_price04:,}</div>
+                </div>
+                """, unsafe_allow_html=True)
         with col14:
             amount04 = st.text_input('数量', value=0, key=14)
         with col15:
             tax04 = st.selectbox('税率', [0.08, 0.1], key=15)
         with col16:
-            point04 = math.floor(int((Decimal(item04) / Decimal(1+tax04)) * Decimal(rank_per)))
-            point04_ = st.text_input('商品ポイント', Decimal(point04) * Decimal(amount04), key=16)
+            if check04 == True:
+                # 割引後価格から計算
+                discounted_price04 = math.floor((Decimal(item04) * Decimal(beans_club)))
+                point04 = math.floor(int((Decimal(discounted_price04) / Decimal(1+tax04)) * Decimal(rank_per)))
+            else:
+                # 通常価格から計算
+                point04 = math.floor(int((Decimal(item04) / Decimal(1+tax04)) * Decimal(rank_per)))
+            point04_ = Decimal(point04) * Decimal(amount04)
+            st.markdown(f"""
+            <div style="font-size: 16px;">
+                <div style="color: #666; font-size: 14px;">商品ポイント</div>
+                <div style="font-size: 20px; font-weight: normal; padding: 10px 0px;">{point04_:,}</div>
+            </div>
+            """, unsafe_allow_html=True)
         with col13_2:
-            st.text_input('税抜価格', math.floor(int(Decimal(item04) / Decimal(1+tax04))), key=2004)
+            try:
+                if check04 == True:
+                    # 割引後価格から税抜き価格を計算
+                    discounted_price04 = math.floor((Decimal(item04) * Decimal(beans_club)))
+                    tax_excluded_price04 = math.floor(int(Decimal(discounted_price04) / Decimal(1+tax04)))
+                else:
+                    # 通常価格から税抜き価格を計算
+                    tax_excluded_price04 = math.floor(int(Decimal(item04) / Decimal(1+tax04)))
+                st.markdown(f"""
+                <div style="font-size: 16px;">
+                    <div style="color: #666; font-size: 14px;">税抜価格</div>
+                    <div style="font-size: 20px; font-weight: normal; padding: 10px 0px;">{tax_excluded_price04:,}</div>
+                </div>
+                """, unsafe_allow_html=True)
+            except:
+                st.markdown(f"""
+                <div style="font-size: 16px;">
+                    <div style="color: #666; font-size: 14px;">税抜価格</div>
+                    <div style="font-size: 20px; font-weight: normal; padding: 10px 0px;">0</div>
+                </div>
+                """, unsafe_allow_html=True)
 
     if 0 < product >= 5:
         check05 = st.checkbox('ビーンズクラブ会員対象品', key=1005)
@@ -133,16 +285,54 @@ if selected_item == '受注設定':
             item05 = st.text_input('税込価格', value=0, key=17)
         with col17_1:
             if check05 == True:
-                item05 = st.text_input('割引後価格',  math.floor((Decimal(item05) * Decimal(beans_club))), key=555)
+                discounted_price05 = math.floor((Decimal(item05) * Decimal(beans_club)))
+                st.markdown(f"""
+                <div style="font-size: 16px;">
+                    <div style="color: #666; font-size: 14px;">割引後価格</div>
+                    <div style="font-size: 20px; font-weight: normal; padding: 10px 0px;">{discounted_price05:,}</div>
+                </div>
+                """, unsafe_allow_html=True)
         with col18:
             amount05 = st.text_input('数量', value=0, key=18)
         with col19:
             tax05 = st.selectbox('税率', [0.08, 0.1], key=19)
         with col20:
-            point05 = math.floor(int((Decimal(item05) / Decimal(1+tax05)) * Decimal(rank_per)))
-            point05_ = st.text_input('商品ポイント', Decimal(point05) * Decimal(amount05), key=20)
+            if check05 == True:
+                # 割引後価格から計算
+                discounted_price05 = math.floor((Decimal(item05) * Decimal(beans_club)))
+                point05 = math.floor(int((Decimal(discounted_price05) / Decimal(1+tax05)) * Decimal(rank_per)))
+            else:
+                # 通常価格から計算
+                point05 = math.floor(int((Decimal(item05) / Decimal(1+tax05)) * Decimal(rank_per)))
+            point05_ = Decimal(point05) * Decimal(amount05)
+            st.markdown(f"""
+            <div style="font-size: 16px;">
+                <div style="color: #666; font-size: 14px;">商品ポイント</div>
+                <div style="font-size: 20px; font-weight: normal; padding: 10px 0px;">{point05_:,}</div>
+            </div>
+            """, unsafe_allow_html=True)
         with col17_2:
-            st.text_input('税抜価格', math.floor(int(Decimal(item05) / Decimal(1+tax05))), key=2005)
+            try:
+                if check05 == True:
+                    # 割引後価格から税抜き価格を計算
+                    discounted_price05 = math.floor((Decimal(item05) * Decimal(beans_club)))
+                    tax_excluded_price05 = math.floor(int(Decimal(discounted_price05) / Decimal(1+tax05)))
+                else:
+                    # 通常価格から税抜き価格を計算
+                    tax_excluded_price05 = math.floor(int(Decimal(item05) / Decimal(1+tax05)))
+                st.markdown(f"""
+                <div style="font-size: 16px;">
+                    <div style="color: #666; font-size: 14px;">税抜価格</div>
+                    <div style="font-size: 20px; font-weight: normal; padding: 10px 0px;">{tax_excluded_price05:,}</div>
+                </div>
+                """, unsafe_allow_html=True)
+            except:
+                st.markdown(f"""
+                <div style="font-size: 16px;">
+                    <div style="color: #666; font-size: 14px;">税抜価格</div>
+                    <div style="font-size: 20px; font-weight: normal; padding: 10px 0px;">0</div>
+                </div>
+                """, unsafe_allow_html=True)
 
     if 0 < product >= 6:
         check06 = st.checkbox('ビーンズクラブ会員対象品', key=1006)
@@ -151,16 +341,54 @@ if selected_item == '受注設定':
             item06 = st.text_input('税込価格', value=0, key=21)
         with col21_1:
             if check06 == True:
-                item06 = st.text_input('割引後価格',  math.floor((Decimal(item06) * Decimal(beans_club))), key=666)
+                discounted_price06 = math.floor((Decimal(item06) * Decimal(beans_club)))
+                st.markdown(f"""
+                <div style="font-size: 16px;">
+                    <div style="color: #666; font-size: 14px;">割引後価格</div>
+                    <div style="font-size: 20px; font-weight: normal; padding: 10px 0px;">{discounted_price06:,}</div>
+                </div>
+                """, unsafe_allow_html=True)
         with col22:
             amount06 = st.text_input('数量', value=0, key=22)
         with col23:
             tax06 = st.selectbox('税率', [0.08, 0.1], key=23)
         with col24:
-            point06 = math.floor(int((Decimal(item06) / Decimal(1+tax06)) * Decimal(rank_per)))
-            point06_ = st.text_input('商品ポイント', Decimal(point06) * Decimal(amount06), key=24)
+            if check06 == True:
+                # 割引後価格から計算
+                discounted_price06 = math.floor((Decimal(item06) * Decimal(beans_club)))
+                point06 = math.floor(int((Decimal(discounted_price06) / Decimal(1+tax06)) * Decimal(rank_per)))
+            else:
+                # 通常価格から計算
+                point06 = math.floor(int((Decimal(item06) / Decimal(1+tax06)) * Decimal(rank_per)))
+            point06_ = Decimal(point06) * Decimal(amount06)
+            st.markdown(f"""
+            <div style="font-size: 16px;">
+                <div style="color: #666; font-size: 14px;">商品ポイント</div>
+                <div style="font-size: 20px; font-weight: normal; padding: 10px 0px;">{point06_:,}</div>
+            </div>
+            """, unsafe_allow_html=True)
         with col21_2:
-            st.text_input('税抜価格', math.floor(int(Decimal(item06) / Decimal(1+tax06))), key=2006)
+            try:
+                if check06 == True:
+                    # 割引後価格から税抜き価格を計算
+                    discounted_price06 = math.floor((Decimal(item06) * Decimal(beans_club)))
+                    tax_excluded_price06 = math.floor(int(Decimal(discounted_price06) / Decimal(1+tax06)))
+                else:
+                    # 通常価格から税抜き価格を計算
+                    tax_excluded_price06 = math.floor(int(Decimal(item06) / Decimal(1+tax06)))
+                st.markdown(f"""
+                <div style="font-size: 16px;">
+                    <div style="color: #666; font-size: 14px;">税抜価格</div>
+                    <div style="font-size: 20px; font-weight: normal; padding: 10px 0px;">{tax_excluded_price06:,}</div>
+                </div>
+                """, unsafe_allow_html=True)
+            except:
+                st.markdown(f"""
+                <div style="font-size: 16px;">
+                    <div style="color: #666; font-size: 14px;">税抜価格</div>
+                    <div style="font-size: 20px; font-weight: normal; padding: 10px 0px;">0</div>
+                </div>
+                """, unsafe_allow_html=True)
 
     if 0 < product >= 7:
         check07 = st.checkbox('ビーンズクラブ会員対象品', key=1007)
@@ -169,16 +397,54 @@ if selected_item == '受注設定':
             item07 = st.text_input('税込価格', value=0, key=25)
         with col25_1:
             if check07 == True:
-                item07 = st.text_input('割引後価格',  math.floor((Decimal(item07) * Decimal(beans_club))), key=777)
+                discounted_price07 = math.floor((Decimal(item07) * Decimal(beans_club)))
+                st.markdown(f"""
+                <div style="font-size: 16px;">
+                    <div style="color: #666; font-size: 14px;">割引後価格</div>
+                    <div style="font-size: 20px; font-weight: normal; padding: 10px 0px;">{discounted_price07:,}</div>
+                </div>
+                """, unsafe_allow_html=True)
         with col26:
             amount07 = st.text_input('数量', value=0, key=26)
         with col27:
             tax07 = st.selectbox('税率', [0.08, 0.1], key=27)
         with col28:
-            point07 = math.floor(int((Decimal(item07) / Decimal(1+tax07)) * Decimal(rank_per)))
-            point07_ = st.text_input('商品ポイント', Decimal(point07) * Decimal(amount07), key=28)
+            if check07 == True:
+                # 割引後価格から計算
+                discounted_price07 = math.floor((Decimal(item07) * Decimal(beans_club)))
+                point07 = math.floor(int((Decimal(discounted_price07) / Decimal(1+tax07)) * Decimal(rank_per)))
+            else:
+                # 通常価格から計算
+                point07 = math.floor(int((Decimal(item07) / Decimal(1+tax07)) * Decimal(rank_per)))
+            point07_ = Decimal(point07) * Decimal(amount07)
+            st.markdown(f"""
+            <div style="font-size: 16px;">
+                <div style="color: #666; font-size: 14px;">商品ポイント</div>
+                <div style="font-size: 20px; font-weight: normal; padding: 10px 0px;">{point07_:,}</div>
+            </div>
+            """, unsafe_allow_html=True)
         with col25_2:
-            st.text_input('税抜価格', math.floor(int(Decimal(item07) / Decimal(1+tax07))), key=2007)
+            try:
+                if check07 == True:
+                    # 割引後価格から税抜き価格を計算
+                    discounted_price07 = math.floor((Decimal(item07) * Decimal(beans_club)))
+                    tax_excluded_price07 = math.floor(int(Decimal(discounted_price07) / Decimal(1+tax07)))
+                else:
+                    # 通常価格から税抜き価格を計算
+                    tax_excluded_price07 = math.floor(int(Decimal(item07) / Decimal(1+tax07)))
+                st.markdown(f"""
+                <div style="font-size: 16px;">
+                    <div style="color: #666; font-size: 14px;">税抜価格</div>
+                    <div style="font-size: 20px; font-weight: normal; padding: 10px 0px;">{tax_excluded_price07:,}</div>
+                </div>
+                """, unsafe_allow_html=True)
+            except:
+                st.markdown(f"""
+                <div style="font-size: 16px;">
+                    <div style="color: #666; font-size: 14px;">税抜価格</div>
+                    <div style="font-size: 20px; font-weight: normal; padding: 10px 0px;">0</div>
+                </div>
+                """, unsafe_allow_html=True)
 
     if 0 < product >= 8:
         check08 = st.checkbox('ビーンズクラブ会員対象品', key=1008)
@@ -187,16 +453,54 @@ if selected_item == '受注設定':
             item08 = st.text_input('税込価格', value=0, key=29)
         with col29_1:
             if check08 == True:
-                item08 = st.text_input('割引後価格',  math.floor((Decimal(item08) * Decimal(beans_club))), key=888)
+                discounted_price08 = math.floor((Decimal(item08) * Decimal(beans_club)))
+                st.markdown(f"""
+                <div style="font-size: 16px;">
+                    <div style="color: #666; font-size: 14px;">割引後価格</div>
+                    <div style="font-size: 20px; font-weight: normal; padding: 10px 0px;">{discounted_price08:,}</div>
+                </div>
+                """, unsafe_allow_html=True)
         with col30:
             amount08 = st.text_input('数量', value=0, key=30)
         with col31:
             tax08 = st.selectbox('税率', [0.08, 0.1], key=31)
         with col32:
-            point08 = math.floor(int((Decimal(item08) / Decimal(1+tax08)) * Decimal(rank_per)))
-            point08_ = st.text_input('商品ポイント', Decimal(point08) * Decimal(amount08), key=32)
+            if check08 == True:
+                # 割引後価格から計算
+                discounted_price08 = math.floor((Decimal(item08) * Decimal(beans_club)))
+                point08 = math.floor(int((Decimal(discounted_price08) / Decimal(1+tax08)) * Decimal(rank_per)))
+            else:
+                # 通常価格から計算
+                point08 = math.floor(int((Decimal(item08) / Decimal(1+tax08)) * Decimal(rank_per)))
+            point08_ = Decimal(point08) * Decimal(amount08)
+            st.markdown(f"""
+            <div style="font-size: 16px;">
+                <div style="color: #666; font-size: 14px;">商品ポイント</div>
+                <div style="font-size: 20px; font-weight: normal; padding: 10px 0px;">{point08_:,}</div>
+            </div>
+            """, unsafe_allow_html=True)
         with col29_2:
-            st.text_input('税抜価格', math.floor(int(Decimal(item08) / Decimal(1+tax08))), key=2008)
+            try:
+                if check08 == True:
+                    # 割引後価格から税抜き価格を計算
+                    discounted_price08 = math.floor((Decimal(item08) * Decimal(beans_club)))
+                    tax_excluded_price08 = math.floor(int(Decimal(discounted_price08) / Decimal(1+tax08)))
+                else:
+                    # 通常価格から税抜き価格を計算
+                    tax_excluded_price08 = math.floor(int(Decimal(item08) / Decimal(1+tax08)))
+                st.markdown(f"""
+                <div style="font-size: 16px;">
+                    <div style="color: #666; font-size: 14px;">税抜価格</div>
+                    <div style="font-size: 20px; font-weight: normal; padding: 10px 0px;">{tax_excluded_price08:,}</div>
+                </div>
+                """, unsafe_allow_html=True)
+            except:
+                st.markdown(f"""
+                <div style="font-size: 16px;">
+                    <div style="color: #666; font-size: 14px;">税抜価格</div>
+                    <div style="font-size: 20px; font-weight: normal; padding: 10px 0px;">0</div>
+                </div>
+                """, unsafe_allow_html=True)
 
     if 0 < product >= 9:
         check09 = st.checkbox('ビーンズクラブ会員対象品', key=1009)
@@ -205,16 +509,54 @@ if selected_item == '受注設定':
             item09 = st.text_input('税込価格', value=0, key=33)
         with col33_1:
             if check09 == True:
-                item09 = st.text_input('割引後価格',  math.floor((Decimal(item09) * Decimal(beans_club))), key=999)
+                discounted_price09 = math.floor((Decimal(item09) * Decimal(beans_club)))
+                st.markdown(f"""
+                <div style="font-size: 16px;">
+                    <div style="color: #666; font-size: 14px;">割引後価格</div>
+                    <div style="font-size: 20px; font-weight: normal; padding: 10px 0px;">{discounted_price09:,}</div>
+                </div>
+                """, unsafe_allow_html=True)
         with col34:
             amount09 = st.text_input('数量', value=0, key=34)
         with col35:
             tax09 = st.selectbox('税率', [0.08, 0.1], key=35)
         with col36:
-            point09 = math.floor(int((Decimal(item09) / Decimal(1+tax09)) * Decimal(rank_per)))
-            point09_ = st.text_input('商品ポイント', Decimal(point09) * Decimal(amount09), key=36)
+            if check09 == True:
+                # 割引後価格から計算
+                discounted_price09 = math.floor((Decimal(item09) * Decimal(beans_club)))
+                point09 = math.floor(int((Decimal(discounted_price09) / Decimal(1+tax09)) * Decimal(rank_per)))
+            else:
+                # 通常価格から計算
+                point09 = math.floor(int((Decimal(item09) / Decimal(1+tax09)) * Decimal(rank_per)))
+            point09_ = Decimal(point09) * Decimal(amount09)
+            st.markdown(f"""
+            <div style="font-size: 16px;">
+                <div style="color: #666; font-size: 14px;">商品ポイント</div>
+                <div style="font-size: 20px; font-weight: normal; padding: 10px 0px;">{point09_:,}</div>
+            </div>
+            """, unsafe_allow_html=True)
         with col33_2:
-            st.text_input('税抜価格', math.floor(int(Decimal(item09) / Decimal(1+tax09))), key=2009)
+            try:
+                if check09 == True:
+                    # 割引後価格から税抜き価格を計算
+                    discounted_price09 = math.floor((Decimal(item09) * Decimal(beans_club)))
+                    tax_excluded_price09 = math.floor(int(Decimal(discounted_price09) / Decimal(1+tax09)))
+                else:
+                    # 通常価格から税抜き価格を計算
+                    tax_excluded_price09 = math.floor(int(Decimal(item09) / Decimal(1+tax09)))
+                st.markdown(f"""
+                <div style="font-size: 16px;">
+                    <div style="color: #666; font-size: 14px;">税抜価格</div>
+                    <div style="font-size: 20px; font-weight: normal; padding: 10px 0px;">{tax_excluded_price09:,}</div>
+                </div>
+                """, unsafe_allow_html=True)
+            except:
+                st.markdown(f"""
+                <div style="font-size: 16px;">
+                    <div style="color: #666; font-size: 14px;">税抜価格</div>
+                    <div style="font-size: 20px; font-weight: normal; padding: 10px 0px;">0</div>
+                </div>
+                """, unsafe_allow_html=True)
 
     if 0 < product >= 10:
         check10 = st.checkbox('ビーンズクラブ会員対象品', key=1010)
@@ -223,16 +565,54 @@ if selected_item == '受注設定':
             item10 = st.text_input('税込価格', value=0, key=37)
         with col37_1:
             if check10 == True:
-                item10 = st.text_input('割引後価格',  math.floor((Decimal(item10) * Decimal(beans_club))), key=1000)
+                discounted_price10 = math.floor((Decimal(item10) * Decimal(beans_club)))
+                st.markdown(f"""
+                <div style="font-size: 16px;">
+                    <div style="color: #666; font-size: 14px;">割引後価格</div>
+                    <div style="font-size: 20px; font-weight: normal; padding: 10px 0px;">{discounted_price10:,}</div>
+                </div>
+                """, unsafe_allow_html=True)
         with col38:
             amount10 = st.text_input('数量', value=0, key=38)
         with col39:
             tax10 = st.selectbox('税率', [0.08, 0.1], key=39)
         with col40:
-            point10 = math.floor(int((Decimal(item10) / Decimal(1+tax10)) * Decimal(rank_per)))
-            point10_ = st.text_input('商品ポイント', Decimal(point10) * Decimal(amount10), key=40)
+            if check10 == True:
+                # 割引後価格から計算
+                discounted_price10 = math.floor((Decimal(item10) * Decimal(beans_club)))
+                point10 = math.floor(int((Decimal(discounted_price10) / Decimal(1+tax10)) * Decimal(rank_per)))
+            else:
+                # 通常価格から計算
+                point10 = math.floor(int((Decimal(item10) / Decimal(1+tax10)) * Decimal(rank_per)))
+            point10_ = Decimal(point10) * Decimal(amount10)
+            st.markdown(f"""
+            <div style="font-size: 16px;">
+                <div style="color: #666; font-size: 14px;">商品ポイント</div>
+                <div style="font-size: 20px; font-weight: normal; padding: 10px 0px;">{point10_:,}</div>
+            </div>
+            """, unsafe_allow_html=True)
         with col37_2:
-            st.text_input('税抜価格', math.floor(int(Decimal(item10) / Decimal(1+tax10))), key=2010)
+            try:
+                if check10 == True:
+                    # 割引後価格から税抜き価格を計算
+                    discounted_price10 = math.floor((Decimal(item10) * Decimal(beans_club)))
+                    tax_excluded_price10 = math.floor(int(Decimal(discounted_price10) / Decimal(1+tax10)))
+                else:
+                    # 通常価格から税抜き価格を計算
+                    tax_excluded_price10 = math.floor(int(Decimal(item10) / Decimal(1+tax10)))
+                st.markdown(f"""
+                <div style="font-size: 16px;">
+                    <div style="color: #666; font-size: 14px;">税抜価格</div>
+                    <div style="font-size: 20px; font-weight: normal; padding: 10px 0px;">{tax_excluded_price10:,}</div>
+                </div>
+                """, unsafe_allow_html=True)
+            except:
+                st.markdown(f"""
+                <div style="font-size: 16px;">
+                    <div style="color: #666; font-size: 14px;">税抜価格</div>
+                    <div style="font-size: 20px; font-weight: normal; padding: 10px 0px;">0</div>
+                </div>
+                """, unsafe_allow_html=True)
 
 
     if product > 0:
@@ -243,26 +623,58 @@ if selected_item == '受注設定':
             if int(point01_) > 0:
                 product01 = int(item01)
                 point_re01 = math.floor(int((((Decimal(product01)) - Decimal(point)) / (Decimal(product01))) * Decimal(point01)) * Decimal(amount01))
-                st.text_input('合計ポイント付与数', point_re01)
+                st.markdown(f"""
+                <div style="font-size: 18px; background-color: #f0f8ff; padding: 15px; border-radius: 8px; border-left: 4px solid #1f77b4;">
+                    <div style="color: #666; font-size: 16px; margin-bottom: 8px;">合計ポイント付与数</div>
+                    <div style="font-size: 24px; font-weight: bold; color: #1f77b4;">{point_re01:,}pt</div>
+                </div>
+                """, unsafe_allow_html=True)
             else:
-                st.text_input('合計ポイント付与数', '')
+                st.markdown(f"""
+                <div style="font-size: 18px; background-color: #f5f5f5; padding: 15px; border-radius: 8px; border-left: 4px solid #999;">
+                    <div style="color: #666; font-size: 16px; margin-bottom: 8px;">合計ポイント付与数</div>
+                    <div style="font-size: 24px; font-weight: bold; color: #999;">0pt</div>
+                </div>
+                """, unsafe_allow_html=True)
         if int(product) == 2:
             if int(point01_) > 0 and int(point02_) >= 0:
                 product02 = int(int(item01) + int(int(item02)))
                 point_re01 = math.floor(int((((Decimal(product02) - Decimal(point)) / Decimal(product02)) * Decimal(point01))) * Decimal(amount01))
                 point_re02 = math.floor(int((((Decimal(product02) - Decimal(point)) / Decimal(product02)) * Decimal(point02))) * Decimal(amount02))
-                st.text_input('合計ポイント付与数', int(point_re01) + int(point_re02))
+                total_points = int(point_re01) + int(point_re02)
+                st.markdown(f"""
+                <div style="font-size: 18px; background-color: #f0f8ff; padding: 15px; border-radius: 8px; border-left: 4px solid #1f77b4;">
+                    <div style="color: #666; font-size: 16px; margin-bottom: 8px;">合計ポイント付与数</div>
+                    <div style="font-size: 24px; font-weight: bold; color: #1f77b4;">{total_points:,}pt</div>
+                </div>
+                """, unsafe_allow_html=True)
             else:
-                st.text_input('合計ポイント付与数', '')
+                st.markdown(f"""
+                <div style="font-size: 18px; background-color: #f5f5f5; padding: 15px; border-radius: 8px; border-left: 4px solid #999;">
+                    <div style="color: #666; font-size: 16px; margin-bottom: 8px;">合計ポイント付与数</div>
+                    <div style="font-size: 24px; font-weight: bold; color: #999;">0pt</div>
+                </div>
+                """, unsafe_allow_html=True)
         if int(product) == 3:
             if int(point01_) > 0 and int(point02_) >= 0 and int(point03_) >= 0:
                 product03 = int(int(item01)) + int(int(item02)) + int(int(item03))
                 point_re01 = math.floor(int((((Decimal(product03) - Decimal(point)) / Decimal(product03)) * Decimal(point01))) * Decimal(amount01))
                 point_re02 = math.floor(int((((Decimal(product03) - Decimal(point)) / Decimal(product03)) * Decimal(point02))) * Decimal(amount02))
                 point_re03 = math.floor(int((((Decimal(product03) - Decimal(point)) / Decimal(product03)) * Decimal(point03))) * Decimal(amount03))
-                st.text_input('合計ポイント付与数', int(point_re01) + int(point_re02) + int(point_re03))
+                total_points = int(point_re01) + int(point_re02) + int(point_re03)
+                st.markdown(f"""
+                <div style="font-size: 18px; background-color: #f0f8ff; padding: 15px; border-radius: 8px; border-left: 4px solid #1f77b4;">
+                    <div style="color: #666; font-size: 16px; margin-bottom: 8px;">合計ポイント付与数</div>
+                    <div style="font-size: 24px; font-weight: bold; color: #1f77b4;">{total_points:,}pt</div>
+                </div>
+                """, unsafe_allow_html=True)
             else:
-                st.text_input('合計ポイント付与数', '')
+                st.markdown(f"""
+                <div style="font-size: 18px; background-color: #f5f5f5; padding: 15px; border-radius: 8px; border-left: 4px solid #999;">
+                    <div style="color: #666; font-size: 16px; margin-bottom: 8px;">合計ポイント付与数</div>
+                    <div style="font-size: 24px; font-weight: bold; color: #999;">0pt</div>
+                </div>
+                """, unsafe_allow_html=True)
         if int(product) == 4:
             if int(point01_) > 0 and int(point02_) >= 0 and int(point03_) >= 0 and int(point04_) >= 0:
                 product04 = int(int(item01)) + int(int(item02)) + int(int(item03)) + int(int(item04))
@@ -270,9 +682,20 @@ if selected_item == '受注設定':
                 point_re02 = math.floor(int((((Decimal(product04) - Decimal(point)) / Decimal(product04)) * Decimal(point02))) * Decimal(amount02))
                 point_re03 = math.floor(int((((Decimal(product04) - Decimal(point)) / Decimal(product04)) * Decimal(point03))) * Decimal(amount03))
                 point_re04 = math.floor(int((((Decimal(product04) - Decimal(point)) / Decimal(product04)) * Decimal(point04))) * Decimal(amount04))
-                st.text_input('合計ポイント付与数', int(point_re01) + int(point_re02) + int(point_re03) + int(point_re04))
+                total_points = int(point_re01) + int(point_re02) + int(point_re03) + int(point_re04)
+                st.markdown(f"""
+                <div style="font-size: 18px; background-color: #f0f8ff; padding: 15px; border-radius: 8px; border-left: 4px solid #1f77b4;">
+                    <div style="color: #666; font-size: 16px; margin-bottom: 8px;">合計ポイント付与数</div>
+                    <div style="font-size: 24px; font-weight: bold; color: #1f77b4;">{total_points:,}pt</div>
+                </div>
+                """, unsafe_allow_html=True)
             else:
-                st.text_input('合計ポイント付与数', '')
+                st.markdown(f"""
+                <div style="font-size: 18px; background-color: #f5f5f5; padding: 15px; border-radius: 8px; border-left: 4px solid #999;">
+                    <div style="color: #666; font-size: 16px; margin-bottom: 8px;">合計ポイント付与数</div>
+                    <div style="font-size: 24px; font-weight: bold; color: #999;">0pt</div>
+                </div>
+                """, unsafe_allow_html=True)
         if int(product) == 5:
             if int(point01_) > 0 and int(point02_) >= 0 and int(point03_) >= 0 and int(point04_) >= 0 and int(point05_) >= 0:
                 product05 = int(int(item01)) + int(int(item02)) + int(int(item03)) + int(int(item04)) + int(int(item05))
@@ -281,9 +704,20 @@ if selected_item == '受注設定':
                 point_re03 = math.floor(int((((Decimal(product05) - Decimal(point)) / Decimal(product05)) * Decimal(point03))) * Decimal(amount03))
                 point_re04 = math.floor(int((((Decimal(product05) - Decimal(point)) / Decimal(product05)) * Decimal(point04))) * Decimal(amount04))
                 point_re05 = math.floor(int((((Decimal(product05) - Decimal(point)) / Decimal(product05)) * Decimal(point05))) * Decimal(amount05))
-                st.text_input('合計ポイント付与数', int(point_re01) + int(point_re02) + int(point_re03) + int(point_re04) + int(point_re05))
+                total_points = int(point_re01) + int(point_re02) + int(point_re03) + int(point_re04) + int(point_re05)
+                st.markdown(f"""
+                <div style="font-size: 18px; background-color: #f0f8ff; padding: 15px; border-radius: 8px; border-left: 4px solid #1f77b4;">
+                    <div style="color: #666; font-size: 16px; margin-bottom: 8px;">合計ポイント付与数</div>
+                    <div style="font-size: 24px; font-weight: bold; color: #1f77b4;">{total_points:,}pt</div>
+                </div>
+                """, unsafe_allow_html=True)
             else:
-                st.text_input('合計ポイント付与数', '')
+                st.markdown(f"""
+                <div style="font-size: 18px; background-color: #f5f5f5; padding: 15px; border-radius: 8px; border-left: 4px solid #999;">
+                    <div style="color: #666; font-size: 16px; margin-bottom: 8px;">合計ポイント付与数</div>
+                    <div style="font-size: 24px; font-weight: bold; color: #999;">0pt</div>
+                </div>
+                """, unsafe_allow_html=True)
         if int(product) == 6:
             if int(point01_) > 0 and int(point02_) >= 0 and int(point03_) >= 0 and int(point04_) >= 0 and int(point05_) >= 0 and int(point06_) >= 0:
                 product06 = int(int(item01)) + int(int(item02)) + int(int(item03)) + int(int(item04)) + int(int(item05)) + int(int(item06))
