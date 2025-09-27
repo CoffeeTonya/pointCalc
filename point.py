@@ -796,22 +796,22 @@ else:
     price = st.sidebar.text_input('税込金額', 0, key=1)
     tax = st.sidebar.selectbox('税率', [0.08, 0.1])
 
-    # 税抜価格を計算
-    tax_excluded_price = Decimal(price) / Decimal(1 + tax)
+    # 税抜価格を計算（小数点以下切り捨て）
+    tax_excluded_price = Decimal(math.floor(Decimal(price) / Decimal(1 + tax)))
     
     col01, col02 = st.columns([1,1])
     with col01:
-        result_white = int(tax_excluded_price * Decimal(white))
+        result_white = int(math.floor(tax_excluded_price * Decimal(white)))
         st.metric('ホワイト会員（1%還元）', f'{result_white:,}pt')
     with col02:
-        result_silver = int(tax_excluded_price * Decimal(silver))
+        result_silver = int(math.floor(tax_excluded_price * Decimal(silver)))
         st.metric('シルバー会員（1%還元）', f'{result_silver:,}pt')
     col03, col04 = st.columns([1,1])
     with col03:
-        result_gold = int(tax_excluded_price * Decimal(gold))
+        result_gold = int(math.floor(tax_excluded_price * Decimal(gold)))
         st.metric('ゴールド会員（2%還元）', f'{result_gold:,}pt')
     with col04:
-        result_diamond = int(tax_excluded_price * Decimal(diamond))
+        result_diamond = int(math.floor(tax_excluded_price * Decimal(diamond)))
         st.metric('ダイヤモンド会員（3%還元）', f'{result_diamond:,}pt')
     
     st.markdown(rf'''
@@ -820,72 +820,69 @@ else:
 
     st.subheader('イベント企画計算用')
     
-    # 税抜価格を計算
-    tax_excluded_price = Decimal(price) / Decimal(1 + tax)
-    
     col05, col06, col07, col08 = st.columns([1,1,1,1])
     with col05:
-        result_2 = int(tax_excluded_price * Decimal(0.02))
+        result_2 = int(math.floor(tax_excluded_price * Decimal(0.02)))
         st.metric('2%還元', f'{result_2:,}pt')
     with col06:
-        result_3 = int(tax_excluded_price * Decimal(0.03))
+        result_3 = int(math.floor(tax_excluded_price * Decimal(0.03)))
         st.metric('3%還元', f'{result_3:,}pt')
     with col07:
-        result_4 = int(tax_excluded_price * Decimal(0.04))
+        result_4 = int(math.floor(tax_excluded_price * Decimal(0.04)))
         st.metric('4%還元', f'{result_4:,}pt')
     with col08:
-        result_5 = int(tax_excluded_price * Decimal(0.05))
+        result_5 = int(math.floor(tax_excluded_price * Decimal(0.05)))
         st.metric('5%還元', f'{result_5:,}pt')
     
     col09, col10, col11, col12 = st.columns([1,1,1,1])
     with col09:
-        result_6 = int(tax_excluded_price * Decimal(0.06))
+        result_6 = int(math.floor(tax_excluded_price * Decimal(0.06)))
         st.metric('6%還元', f'{result_6:,}pt')
     with col10:
-        result_7 = int(tax_excluded_price * Decimal(0.07))
+        result_7 = int(math.floor(tax_excluded_price * Decimal(0.07)))
         st.metric('7%還元', f'{result_7:,}pt')
     with col11:
-        result_8 = int(tax_excluded_price * Decimal(0.08))
+        result_8 = int(math.floor(tax_excluded_price * Decimal(0.08)))
         st.metric('8%還元', f'{result_8:,}pt')
     with col12:
-        result_9 = int(tax_excluded_price * Decimal(0.09))
+        result_9 = int(math.floor(tax_excluded_price * Decimal(0.09)))
         st.metric('9%還元', f'{result_9:,}pt')
     
     col13, col14, col15, col16 = st.columns([1,1,1,1])
     with col13:
-        result_10 = int(tax_excluded_price * Decimal(0.10))
+        result_10 = int(math.floor(tax_excluded_price * Decimal(0.10)))
         st.metric('10%還元', f'{result_10:,}pt')
     with col14:
-        result_11 = int(tax_excluded_price * Decimal(0.11))
+        result_11 = int(math.floor(tax_excluded_price * Decimal(0.11)))
         st.metric('11%還元', f'{result_11:,}pt')
     with col15:
-        result_12 = int(tax_excluded_price * Decimal(0.12))
+        result_12 = int(math.floor(tax_excluded_price * Decimal(0.12)))
         st.metric('12%還元', f'{result_12:,}pt')
     with col16:
-        result_13 = int(tax_excluded_price * Decimal(0.13))
+        result_13 = int(math.floor(tax_excluded_price * Decimal(0.13)))
         st.metric('13%還元', f'{result_13:,}pt')
     
     col17, col18, col19, col20 = st.columns([1,1,1,1])
     with col17:
-        result_14 = int(tax_excluded_price * Decimal(0.14))
+        result_14 = int(math.floor(tax_excluded_price * Decimal(0.14)))
         st.metric('14%還元', f'{result_14:,}pt')
     with col18:
-        result_15 = int(tax_excluded_price * Decimal(0.15))
+        result_15 = int(math.floor(tax_excluded_price * Decimal(0.15)))
         st.metric('15%還元', f'{result_15:,}pt')
     with col19:
-        result_16 = int(tax_excluded_price * Decimal(0.16))
+        result_16 = int(math.floor(tax_excluded_price * Decimal(0.16)))
         st.metric('16%還元', f'{result_16:,}pt')
     with col20:
-        result_17 = int(tax_excluded_price * Decimal(0.17))
+        result_17 = int(math.floor(tax_excluded_price * Decimal(0.17)))
         st.metric('17%還元', f'{result_17:,}pt')
     
     col21, col22, col23, col24 = st.columns([1,1,1,1])
     with col21:
-        result_18 = int(tax_excluded_price * Decimal(0.18))
+        result_18 = int(math.floor(tax_excluded_price * Decimal(0.18)))
         st.metric('18%還元', f'{result_18:,}pt')
     with col22:
-        result_19 = int(tax_excluded_price * Decimal(0.19))
+        result_19 = int(math.floor(tax_excluded_price * Decimal(0.19)))
         st.metric('19%還元', f'{result_19:,}pt')
     with col23:
-        result_20 = int(tax_excluded_price * Decimal(0.20))
+        result_20 = int(math.floor(tax_excluded_price * Decimal(0.20)))
         st.metric('20%還元', f'{result_20:,}pt')
