@@ -796,62 +796,96 @@ else:
     price = st.sidebar.text_input('税込金額', 0, key=1)
     tax = st.sidebar.selectbox('税率', [0.08, 0.1])
 
+    # 税抜価格を計算
+    tax_excluded_price = Decimal(price) / Decimal(1 + tax)
+    
     col01, col02 = st.columns([1,1])
     with col01:
-        st.text_input('ホワイト会員（1%還元）', int((Decimal(price) / Decimal(1 + tax)) * Decimal(white)), key=2)
+        result_white = int(tax_excluded_price * Decimal(white))
+        st.metric('ホワイト会員（1%還元）', f'{result_white:,}pt')
     with col02:
-        st.text_input('シルバー会員（1%還元）', int((Decimal(price) / Decimal(1 + tax)) * Decimal(silver)), key=3)
+        result_silver = int(tax_excluded_price * Decimal(silver))
+        st.metric('シルバー会員（1%還元）', f'{result_silver:,}pt')
     col03, col04 = st.columns([1,1])
     with col03:
-        st.text_input('ゴールド会員（2%還元）', int((Decimal(price) / Decimal(1 + tax)) * Decimal(gold)), key=4)
+        result_gold = int(tax_excluded_price * Decimal(gold))
+        st.metric('ゴールド会員（2%還元）', f'{result_gold:,}pt')
     with col04:
-        st.text_input('ダイヤモンド会員（3%還元）', int((Decimal(price) / Decimal(1 + tax)) * Decimal(diamond)), key=5)
+        result_diamond = int(tax_excluded_price * Decimal(diamond))
+        st.metric('ダイヤモンド会員（3%還元）', f'{result_diamond:,}pt')
     
     st.markdown(rf'''
     <hr>
     ''', unsafe_allow_html=True)
 
     st.subheader('イベント企画計算用')
+    
+    # 税抜価格を計算
+    tax_excluded_price = Decimal(price) / Decimal(1 + tax)
+    
     col05, col06, col07, col08 = st.columns([1,1,1,1])
     with col05:
-        st.text_input('2%還元', int((Decimal(price) / Decimal(1 + tax)) * Decimal(0.02)), key=12)
+        result_2 = int(tax_excluded_price * Decimal(0.02))
+        st.metric('2%還元', f'{result_2:,}pt')
     with col06:
-        st.text_input('3%還元', int((Decimal(price) / Decimal(1 + tax)) * Decimal(0.03)), key=13)
+        result_3 = int(tax_excluded_price * Decimal(0.03))
+        st.metric('3%還元', f'{result_3:,}pt')
     with col07:
-        st.text_input('4%還元', int((Decimal(price) / Decimal(1 + tax)) * Decimal(0.04)), key=14)
+        result_4 = int(tax_excluded_price * Decimal(0.04))
+        st.metric('4%還元', f'{result_4:,}pt')
     with col08:
-        st.text_input('5%還元', int((Decimal(price) / Decimal(1 + tax)) * Decimal(0.05)), key=15)
+        result_5 = int(tax_excluded_price * Decimal(0.05))
+        st.metric('5%還元', f'{result_5:,}pt')
+    
     col09, col10, col11, col12 = st.columns([1,1,1,1])
     with col09:
-        st.text_input('6%還元', int((Decimal(price) / Decimal(1 + tax)) * Decimal(0.06)), key=16)
+        result_6 = int(tax_excluded_price * Decimal(0.06))
+        st.metric('6%還元', f'{result_6:,}pt')
     with col10:
-        st.text_input('7%還元', int((Decimal(price) / Decimal(1 + tax)) * Decimal(0.07)), key=17)
+        result_7 = int(tax_excluded_price * Decimal(0.07))
+        st.metric('7%還元', f'{result_7:,}pt')
     with col11:
-        st.text_input('8%還元', int((Decimal(price) / Decimal(1 + tax)) * Decimal(0.08)), key=18)
+        result_8 = int(tax_excluded_price * Decimal(0.08))
+        st.metric('8%還元', f'{result_8:,}pt')
     with col12:
-        st.text_input('9%還元', int((Decimal(price) / Decimal(1 + tax)) * Decimal(0.09)), key=19)
+        result_9 = int(tax_excluded_price * Decimal(0.09))
+        st.metric('9%還元', f'{result_9:,}pt')
+    
     col13, col14, col15, col16 = st.columns([1,1,1,1])
     with col13:
-        st.text_input('10%還元', int((Decimal(price) / Decimal(1 + tax)) * Decimal(0.10)), key=20)
+        result_10 = int(tax_excluded_price * Decimal(0.10))
+        st.metric('10%還元', f'{result_10:,}pt')
     with col14:
-        st.text_input('11%還元', int((Decimal(price) / Decimal(1 + tax)) * Decimal(0.11)), key=21)
+        result_11 = int(tax_excluded_price * Decimal(0.11))
+        st.metric('11%還元', f'{result_11:,}pt')
     with col15:
-        st.text_input('12%還元', int((Decimal(price) / Decimal(1 + tax)) * Decimal(0.12)), key=22)
+        result_12 = int(tax_excluded_price * Decimal(0.12))
+        st.metric('12%還元', f'{result_12:,}pt')
     with col16:
-        st.text_input('13%還元', int((Decimal(price) / Decimal(1 + tax)) * Decimal(0.13)), key=23)
+        result_13 = int(tax_excluded_price * Decimal(0.13))
+        st.metric('13%還元', f'{result_13:,}pt')
+    
     col17, col18, col19, col20 = st.columns([1,1,1,1])
     with col17:
-        st.text_input('14%還元', int((Decimal(price) / Decimal(1 + tax)) * Decimal(0.14)), key=24)
+        result_14 = int(tax_excluded_price * Decimal(0.14))
+        st.metric('14%還元', f'{result_14:,}pt')
     with col18:
-        st.text_input('15%還元', int((Decimal(price) / Decimal(1 + tax)) * Decimal(0.15)), key=25)
+        result_15 = int(tax_excluded_price * Decimal(0.15))
+        st.metric('15%還元', f'{result_15:,}pt')
     with col19:
-        st.text_input('16%還元', int((Decimal(price) / Decimal(1 + tax)) * Decimal(0.16)), key=26)
+        result_16 = int(tax_excluded_price * Decimal(0.16))
+        st.metric('16%還元', f'{result_16:,}pt')
     with col20:
-        st.text_input('17%還元', int((Decimal(price) / Decimal(1 + tax)) * Decimal(0.17)), key=27)
+        result_17 = int(tax_excluded_price * Decimal(0.17))
+        st.metric('17%還元', f'{result_17:,}pt')
+    
     col21, col22, col23, col24 = st.columns([1,1,1,1])
     with col21:
-        st.text_input('18%還元', int((Decimal(price) / Decimal(1 + tax)) * Decimal(0.18)), key=28)
+        result_18 = int(tax_excluded_price * Decimal(0.18))
+        st.metric('18%還元', f'{result_18:,}pt')
     with col22:
-        st.text_input('19%還元', int((Decimal(price) / Decimal(1 + tax)) * Decimal(0.19)), key=29)
+        result_19 = int(tax_excluded_price * Decimal(0.19))
+        st.metric('19%還元', f'{result_19:,}pt')
     with col23:
-        st.text_input('20%還元', int((Decimal(price) / Decimal(1 + tax)) * Decimal(0.20)), key=30)
+        result_20 = int(tax_excluded_price * Decimal(0.20))
+        st.metric('20%還元', f'{result_20:,}pt')
