@@ -68,14 +68,52 @@ st.markdown(
     [data-testid="stTabs"] {
         margin-top: 0.15rem;
     }
-    [data-testid="stTabs"] button,
-    button[data-baseweb="tab"] {
-        font-size: 1.08rem !important;
-        padding: 0.7rem 1.15rem !important;
-    }
     [data-testid="stTabs"] [role="tablist"] {
-        gap: 0.35rem !important;
-        margin-bottom: 0.85rem !important;
+        gap: 6px !important;
+        border-bottom: 1px solid #d0d5dd;
+        padding: 0 2px;
+        align-items: flex-end !important;
+    }
+    [data-testid="stTab"] {
+        font-size: 1.08rem !important;
+        font-weight: 600 !important;
+        letter-spacing: 0.06em !important;
+        padding: 0.72rem 1.45rem !important;
+        margin: 0 0 -1px 0 !important;
+        background: #eef2f6 !important;
+        color: #667085 !important;
+        border: 1px solid #d0d5dd !important;
+        border-bottom-color: transparent !important;
+        border-radius: 10px 10px 0 0 !important;
+        cursor: pointer;
+    }
+    [data-testid="stTab"] [data-testid="stMarkdownContainer"] p {
+        font-size: 1.08rem !important;
+        font-weight: 600 !important;
+        letter-spacing: 0.06em !important;
+        margin: 0 !important;
+        color: inherit !important;
+    }
+    [data-testid="stTab"]:hover {
+        background: #f8fafc !important;
+        color: #344054 !important;
+    }
+    [data-testid="stTab"][aria-selected="true"],
+    [data-testid="stTab"][data-selected="true"] {
+        background: #fff !important;
+        color: #1d2939 !important;
+        border-bottom-color: #fff !important;
+        font-weight: 700 !important;
+        position: relative;
+        z-index: 1;
+    }
+    [data-testid="stTab"][aria-selected="true"] [data-testid="stMarkdownContainer"] p,
+    [data-testid="stTab"][data-selected="true"] [data-testid="stMarkdownContainer"] p {
+        font-weight: 700 !important;
+        color: inherit !important;
+    }
+    [data-testid="stTab"] .react-aria-SelectionIndicator {
+        display: none !important;
     }
     .hist-card {
         background: #f8fafc; border: 1px solid #e4e7ec;
