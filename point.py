@@ -47,23 +47,27 @@ st.markdown(
     header[data-testid="stHeader"] { display: none !important; }
     .stAppDeployButton { display: none !important; }
     .block-container { padding-top: 1rem; padding-bottom: 2rem; max-width: 1000px; }
-    h1 { font-size: 1.4rem !important; letter-spacing: 0.02em; margin-bottom: 0.1rem !important; }
+    h1 { font-size: 1.75rem !important; letter-spacing: 0.02em; margin-bottom: 0.1rem !important; }
     .title-row {
         display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
         margin: 0 0 0.25rem;
     }
     .title-row .app-title {
-        font-size: 1.4rem; font-weight: 700; letter-spacing: 0.02em;
+        font-size: 1.75rem; font-weight: 700; letter-spacing: 0.02em;
         color: #1d2939; margin: 0; line-height: 1.3;
     }
-    .ver-meta { color: #667085; font-size: 0.85rem; font-weight: 500; }
+    .ver-meta { color: #667085; font-size: 1rem; font-weight: 500; }
     .ver-chip {
         display: inline-block; background: #eef2f6; color: #344054;
-        border-radius: 999px; padding: 2px 9px; font-size: 0.78rem; font-weight: 700;
+        border-radius: 999px; padding: 3px 11px; font-size: 0.92rem; font-weight: 700;
     }
     .manual-head {
-        font-size: 1.05rem; font-weight: 600; color: #1d2939;
+        font-size: 1.28rem; font-weight: 600; color: #1d2939;
         margin: 0.15rem 0 0.65rem;
+    }
+    [data-testid="stTabs"] button,
+    button[data-baseweb="tab"] {
+        font-size: 1.08rem !important;
     }
     .hist-card {
         background: #f8fafc; border: 1px solid #e4e7ec;
