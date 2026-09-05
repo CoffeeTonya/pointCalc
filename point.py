@@ -37,6 +37,13 @@ PRODUCT_EVENT_RATES = [
 st.markdown(
     """
     <style>
+    @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap");
+    html, body, .stApp, [data-testid="stAppViewContainer"],
+    [data-testid="stMarkdownContainer"], [data-testid="stButton"] button,
+    input, textarea, select, label, p, h1, h2, h3, h4, h5, .pc, .slot-stage {
+        font-family: "Yu Gothic UI", "Yu Gothic", "Hiragino Sans",
+            "Hiragino Kaku Gothic ProN", "Noto Sans JP", Meiryo, sans-serif !important;
+    }
     header[data-testid="stHeader"] { display: none !important; }
     .stAppDeployButton { display: none !important; }
     .block-container { padding-top: 1rem; padding-bottom: 2rem; max-width: 1000px; }
