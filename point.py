@@ -66,13 +66,58 @@ st.markdown(
     .hist-date { color: #667085; font-size: 0.78rem; font-weight: 500; margin-left: 6px; }
     .hist-card ul { margin: 6px 0 0 1.15rem; padding: 0; color: #344054; font-size: 0.82rem; }
     .hist-card li { margin: 3px 0; }
-    .play-hint { color: #667085; font-size: 0.88rem; margin: 0 0 0.7rem; }
+    .slot-stage {
+        background: linear-gradient(165deg, #4a3124 0%, #2c1b12 100%);
+        border-radius: 16px; padding: 16px 12px 14px; margin: 0 0 8px;
+        box-shadow: 0 8px 24px rgba(44, 27, 18, 0.18);
+    }
+    .slot-grid {
+        display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;
+    }
+    .slot-label {
+        color: #f3d2b3; font-size: 0.72rem; font-weight: 700;
+        letter-spacing: 0.12em; text-align: center; margin-bottom: 8px;
+    }
     .slot-reel {
         text-align: center; background: #fff7ed; border: 1px solid #f5d0b0;
         border-radius: 12px; padding: 18px 8px 14px; min-height: 118px;
+        overflow: hidden; position: relative;
+    }
+    .slot-reel.spinning {
+        padding: 0; min-height: 0; border-color: #e08a3a;
+        box-shadow: inset 0 0 0 2px rgba(224, 138, 58, 0.2);
+    }
+    .slot-reel.locked { border-color: #c2410c; background: #fff; }
+    .slot-window { height: 128px; overflow: hidden; position: relative; }
+    .slot-window::before, .slot-window::after {
+        content: ''; position: absolute; left: 0; right: 0; height: 28px;
+        z-index: 1; pointer-events: none;
+    }
+    .slot-window::before { top: 0; background: linear-gradient(#fff7ed, transparent); }
+    .slot-window::after { bottom: 0; background: linear-gradient(transparent, #fff7ed); }
+    .slot-track {
+        animation-name: slot-spin; animation-timing-function: linear;
+        animation-iteration-count: infinite; will-change: transform;
+        filter: blur(0.5px); animation-duration: 0.72s;
+    }
+    .slot-track.speed-origin { animation-duration: 0.72s; }
+    .slot-track.speed-roast { animation-duration: 0.36s; }
+    .slot-track.speed-brew { animation-duration: 0.45s; }
+    .slot-track.slow { filter: blur(0.25px); }
+    .slot-track.speed-origin.slow { animation-duration: 1.05s; }
+    .slot-track.speed-roast.slow { animation-duration: 0.62s; }
+    .slot-track.speed-brew.slow { animation-duration: 0.78s; }
+    .slot-cell {
+        height: 128px; display: flex; flex-direction: column;
+        align-items: center; justify-content: center;
+    }
+    @keyframes slot-spin {
+        from { transform: translateY(0); }
+        to { transform: translateY(-50%); }
     }
     .slot-emoji { font-size: 2rem; line-height: 1.2; }
     .slot-name { font-weight: 700; font-size: 1.05rem; margin-top: 8px; color: #1d2939; }
+    .slot-cell .slot-name { margin-top: 6px; }
     .slot-sub { color: #9a6b3d; font-size: 0.78rem; margin-top: 2px; }
     .gacha-card {
         background: linear-gradient(180deg, #fff7ed 0%, #fff 72%);
@@ -86,6 +131,129 @@ st.markdown(
     .gacha-title { font-weight: 700; font-size: 1.05rem; color: #1d2939; }
     .gacha-body { color: #344054; font-size: 0.9rem; margin-top: 6px; line-height: 1.55; }
     .mem-stat { color: #475467; font-size: 0.88rem; }
+    .st-key-mem_board {
+        background: linear-gradient(165deg, #1f5136 0%, #143325 100%) !important;
+        border-radius: 16px !important;
+        padding: 12px 10px !important;
+        box-shadow: 0 8px 24px rgba(20, 51, 37, 0.28);
+    }
+    .st-key-mem_board [data-testid="stHorizontalBlock"] { gap: 8px !important; }
+    .st-key-mem_board [data-testid="stColumn"],
+    .st-key-mem_board [data-testid="stColumn"] > div {
+        position: relative !important;
+    }
+    .st-key-mem_board [data-testid="stMarkdownContainer"] { margin-bottom: 0 !important; }
+    .st-key-mem_board [data-testid="stElementToolbar"] { display: none !important; }
+    .pc, .pc * { pointer-events: none !important; }
+    .st-key-mem_board [class*="st-key-memflip_"] {
+        position: absolute !important;
+        inset: 0 !important;
+        z-index: 20 !important;
+        min-height: 0 !important;
+    }
+    .st-key-mem_board [class*="st-key-memflip_"] [data-testid="stButton"],
+    .st-key-mem_board [class*="st-key-memflip_"] button {
+        position: absolute !important;
+        inset: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        min-height: 0 !important;
+        margin: 0 !important;
+        z-index: 21 !important;
+        cursor: pointer !important;
+        pointer-events: auto !important;
+    }
+    .st-key-mem_board [class*="st-key-memflip_"] button {
+        opacity: 0.01 !important;
+        border: 0 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+    .st-key-mem_board [class*="st-key-memflip_"] button:disabled {
+        cursor: default !important;
+        pointer-events: none !important;
+    }
+    .st-key-mem_board [data-testid="stColumn"]:hover .pc.back {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.35);
+    }
+    .pc {
+        aspect-ratio: 5 / 7;
+        width: min(100%, 122px);
+        margin: 0 auto;
+        border-radius: 12px;
+        position: relative;
+        overflow: hidden;
+        box-shadow:
+            0 1px 0 rgba(255, 255, 255, 0.35) inset,
+            0 2px 0 #0b1f14,
+            0 8px 16px rgba(0, 0, 0, 0.32);
+        transition: transform 0.12s ease, box-shadow 0.12s ease;
+        user-select: none;
+    }
+    .pc.back {
+        background:
+            repeating-linear-gradient(
+                45deg, #7a2e12 0 5px, #4e1a0c 5px 10px
+            );
+        border: 3px solid #f4ead8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .pc-back-inner {
+        width: 78%;
+        height: 84%;
+        border: 2px solid #e8c9a0;
+        border-radius: 8px;
+        background: linear-gradient(165deg, #9a4a1c 0%, #4a1c0c 100%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: #f8e3c8;
+    }
+    .pc-back-logo { font-size: 1.7rem; line-height: 1; }
+    .pc-back-mark {
+        margin-top: 6px;
+        font-size: 0.62rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+    }
+    .pc.face {
+        background: linear-gradient(180deg, #fffefb 0%, #fff6ea 100%);
+        border: 2px solid #c4a574;
+    }
+    .pc.matched { border-color: #d4a017; box-shadow: 0 0 0 2px rgba(232, 184, 74, 0.5); }
+    .pc-index {
+        position: absolute;
+        top: 5px;
+        left: 7px;
+        font-size: 0.95rem;
+        line-height: 1.1;
+        color: #7a2e12;
+    }
+    .pc-index.br {
+        top: auto;
+        left: auto;
+        bottom: 5px;
+        right: 7px;
+        transform: rotate(180deg);
+    }
+    .pc-suit {
+        font-size: 2rem;
+        text-align: center;
+        padding-top: 30%;
+        line-height: 1;
+    }
+    .pc-rank {
+        text-align: center;
+        font-weight: 700;
+        font-size: 0.72rem;
+        margin-top: 6px;
+        color: #1d2939;
+        letter-spacing: 0.02em;
+    }
     .col-head, .rate-line, .rate-chip, .hint { white-space: nowrap; }
     h5.section-title { margin-top: 1.6rem; margin-bottom: 0.35rem; font-size: 1.05rem; }
     div[role="radiogroup"] label, div[role="radiogroup"] p { white-space: nowrap !important; }
@@ -868,6 +1036,8 @@ def render_history_tab():
     <li>1行目が 0pt でも、ほかの行があれば合計を出す</li>
     <li>計算式・端数（切り捨て）は Ver.01 と同じ</li>
     <li>コーヒーブレイク（産地神経衰弱・今日の一杯ルーレット）</li>
+    <li>今日の一杯ルーレットは、リールが回って順に止まる演出</li>
+    <li>産地神経衰弱の札を、裏向き／表向きのカード型にした</li>
   </ul>
 </div>
 <div class="hist-card">
@@ -969,6 +1139,26 @@ def _memory_click(idx):
         st.session_state.play_need_hide = True
 
 
+def _playing_card_html(card, state):
+    """トランプ型の札。back / face / matched。"""
+    if state == 'back':
+        return (
+            '<div class="pc back"><div class="pc-back-inner">'
+            '<div class="pc-back-logo">☕</div>'
+            '<div class="pc-back-mark">COFFEE</div>'
+            '</div></div>'
+        )
+    klass = 'pc face matched' if state == 'matched' else 'pc face'
+    return (
+        f'<div class="{klass}">'
+        f'<div class="pc-index">{card["emoji"]}</div>'
+        f'<div class="pc-suit">{card["emoji"]}</div>'
+        f'<div class="pc-rank">{card["name"]}</div>'
+        f'<div class="pc-index br">{card["emoji"]}</div>'
+        f'</div>'
+    )
+
+
 def render_memory_game():
     if 'play_deck' not in st.session_state:
         _init_memory()
@@ -1006,32 +1196,31 @@ def render_memory_game():
     elif st.session_state.play_last_match:
         st.caption(st.session_state.play_last_match)
 
-    for row in range(4):
-        cols = st.columns(4)
-        for col, idx in zip(cols, range(row * 4, row * 4 + 4)):
-            card = deck[idx]
-            if card['matched']:
-                label = f"{card['emoji']} {card['name']}"
-                disabled = True
-                kind = 'primary'
-            elif card['flipped']:
-                label = f"{card['emoji']} {card['name']}"
-                disabled = True
-                kind = 'primary'
-            else:
-                label = '☕'
-                disabled = bool(st.session_state.play_finished)
-                kind = 'secondary'
-            with col:
-                st.button(
-                    label,
-                    key=f'mem_{idx}_{st.session_state.play_started}',
-                    use_container_width=True,
-                    disabled=disabled,
-                    type=kind,
-                    on_click=_memory_click,
-                    args=(idx,),
-                )
+    with st.container(key='mem_board'):
+        for row in range(4):
+            cols = st.columns(4)
+            for col, idx in zip(cols, range(row * 4, row * 4 + 4)):
+                card = deck[idx]
+                if card['matched']:
+                    state = 'matched'
+                    disabled = True
+                elif card['flipped']:
+                    state = 'face'
+                    disabled = True
+                else:
+                    state = 'back'
+                    disabled = bool(st.session_state.play_finished)
+                with col:
+                    st.markdown(_playing_card_html(card, state), unsafe_allow_html=True)
+                    st.button(
+                        'めくる',
+                        key=f'memflip_{idx}_{st.session_state.play_started}',
+                        use_container_width=True,
+                        disabled=disabled,
+                        type='tertiary',
+                        on_click=_memory_click,
+                        args=(idx,),
+                    )
 
     if st.button('もう一局', key='mem_reset'):
         _init_memory()
@@ -1046,56 +1235,129 @@ def render_memory_game():
         st.rerun()
 
 
-def render_roulette():
+def _init_roulette():
     if 'play_spin' not in st.session_state:
         st.session_state.play_spin = None
     if 'play_album' not in st.session_state:
         st.session_state.play_album = []
     if 'play_spins' not in st.session_state:
         st.session_state.play_spins = 0
+    if 'play_reel_run' not in st.session_state:
+        st.session_state.play_reel_run = False
+        st.session_state.play_reel_stop = [True, True, True]
+        st.session_state.play_reel_show = [0, 0, 0]
 
-    if st.button('豆を挽く', type='primary', key='play_spin_btn'):
-        origin = random.choice(PLAY_ORIGINS)
-        roast = random.choice(PLAY_ROASTS)
-        brew = random.choice(PLAY_BREWS)
-        key = (origin[0], roast[0], brew[0])
-        secret = PLAY_SECRETS.get(key)
-        st.session_state.play_spin = (origin, roast, brew, secret)
-        st.session_state.play_spins += 1
-        combo = f'{origin[0]} / {roast[0]} / {brew[0]}'
-        if combo not in st.session_state.play_album:
-            st.session_state.play_album.append(combo)
+
+def _start_roulette():
+    """結果を先に決め、3本のリールを回し始める。"""
+    st.session_state.play_reel_run = True
+    st.session_state.play_reel_stop = [False, False, False]
+    st.session_state.play_spin = None
+    st.session_state.play_reel_show = [
+        random.randrange(len(PLAY_ORIGINS)),
+        random.randrange(len(PLAY_ROASTS)),
+        random.randrange(len(PLAY_BREWS)),
+    ]
+
+
+def _commit_roulette_result():
+    """止まった3本から今日の一杯を確定する。"""
+    origin = PLAY_ORIGINS[st.session_state.play_reel_show[0]]
+    roast = PLAY_ROASTS[st.session_state.play_reel_show[1]]
+    brew = PLAY_BREWS[st.session_state.play_reel_show[2]]
+    secret = PLAY_SECRETS.get((origin[0], roast[0], brew[0]))
+    st.session_state.play_spin = (origin, roast, brew, secret)
+    st.session_state.play_reel_run = False
+    st.session_state.play_spins += 1
+    combo = f'{origin[0]} / {roast[0]} / {brew[0]}'
+    if combo not in st.session_state.play_album:
+        st.session_state.play_album.append(combo)
+
+
+def _lock_next_roulette_reel():
+    """左から1本ずつ止める。3本目で結果を確定する。"""
+    stops = list(st.session_state.play_reel_stop)
+    for i in range(3):
+        if not stops[i]:
+            stops[i] = True
+            break
+    st.session_state.play_reel_stop = stops
+    if all(stops):
+        _commit_roulette_result()
+
+
+def _slot_reel_inner(items, index, spinning, speed_class='speed-origin'):
+    """1本分のリールHTML。回っているときは全項目をループさせる。"""
+    if spinning:
+        cells = []
+        for item in list(items) + list(items):
+            cells.append(
+                f'<div class="slot-cell">'
+                f'<div class="slot-emoji">{item[1]}</div>'
+                f'<div class="slot-name">{item[0]}</div>'
+                f'</div>'
+            )
+        return (
+            f'<div class="slot-reel spinning"><div class="slot-window">'
+            f'<div class="slot-track {speed_class}">'
+            f'{"".join(cells)}</div></div></div>'
+        )
+    if index is None:
+        return (
+            '<div class="slot-reel">'
+            '<div class="slot-emoji"></div>'
+            '<div class="slot-name">？</div>'
+            '<div class="slot-sub">豆を挽いて回す</div></div>'
+        )
+    item = items[index]
+    sub = item[2] if len(item) > 2 else '抽出'
+    return (
+        f'<div class="slot-reel locked">'
+        f'<div class="slot-emoji">{item[1]}</div>'
+        f'<div class="slot-name">{item[0]}</div>'
+        f'<div class="slot-sub">{sub}</div></div>'
+    )
+
+
+def render_roulette():
+    _init_roulette()
+    running = st.session_state.play_reel_run
+    stops = st.session_state.play_reel_stop
+    shows = st.session_state.play_reel_show
+
+    st.button(
+        '豆を挽く',
+        type='primary',
+        key='play_spin_btn',
+        disabled=running,
+        on_click=_start_roulette,
+        use_container_width=True,
+    )
+
+    idle = (not running) and st.session_state.play_spin is None
+    slowing = running and any(stops)
+    reels = [
+        (PLAY_ORIGINS, shows[0], running and not stops[0], '産地', 'speed-origin'),
+        (PLAY_ROASTS, shows[1], running and not stops[1], '焙煎', 'speed-roast'),
+        (PLAY_BREWS, shows[2], running and not stops[2], '抽出', 'speed-brew'),
+    ]
+    stage_cols = []
+    for items, idx, spinning, label, speed_class in reels:
+        shown_idx = None if idle else idx
+        if spinning and slowing:
+            speed_class = f'{speed_class} slow'
+        stage_cols.append(
+            f'<div><div class="slot-label">{label}</div>'
+            f'{_slot_reel_inner(items, shown_idx, spinning, speed_class)}</div>'
+        )
+    st.markdown(
+        f'<div class="slot-stage"><div class="slot-grid">{"".join(stage_cols)}</div></div>',
+        unsafe_allow_html=True,
+    )
 
     spin = st.session_state.play_spin
-    if spin is None:
-        st.markdown(
-            '<p class="play-hint">産地・焙煎・抽出が決まります。</p>',
-            unsafe_allow_html=True,
-        )
-    else:
+    if spin is not None and not running:
         origin, roast, brew, secret = spin
-        c1, c2, c3 = st.columns(3)
-        with c1:
-            st.markdown(
-                f'<div class="slot-reel"><div class="slot-emoji">{origin[1]}</div>'
-                f'<div class="slot-name">{origin[0]}</div>'
-                f'<div class="slot-sub">{origin[2]}</div></div>',
-                unsafe_allow_html=True,
-            )
-        with c2:
-            st.markdown(
-                f'<div class="slot-reel"><div class="slot-emoji">{roast[1]}</div>'
-                f'<div class="slot-name">{roast[0]}</div>'
-                f'<div class="slot-sub">{roast[2]}</div></div>',
-                unsafe_allow_html=True,
-            )
-        with c3:
-            st.markdown(
-                f'<div class="slot-reel"><div class="slot-emoji">{brew[1]}</div>'
-                f'<div class="slot-name">{brew[0]}</div>'
-                f'<div class="slot-sub">抽出</div></div>',
-                unsafe_allow_html=True,
-            )
         if secret:
             title, body = secret
             st.markdown(
@@ -1123,6 +1385,12 @@ def render_roulette():
                 mark = '✦ ' if tuple(item.split(' / ')) in PLAY_SECRETS else ''
                 st.write(f'- {mark}{item}')
 
+    if running and not all(stops):
+        locked = sum(1 for stopped in stops if stopped)
+        time.sleep(1.35 if locked == 0 else 0.55)
+        _lock_next_roulette_reel()
+        st.rerun()
+
 
 def render_play_tab():
     st.markdown('<div class="manual-head">コーヒーブレイク</div>', unsafe_allow_html=True)
@@ -1134,7 +1402,6 @@ def render_play_tab():
         key='play_mode',
     )
     if mode == '産地神経衰弱':
-        st.caption('同じ産地を2枚揃える。ケニア、グアテマラ、エチオピアなど 8 産地。')
         render_memory_game()
     else:
         render_roulette()
