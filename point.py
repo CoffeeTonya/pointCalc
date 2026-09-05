@@ -1,4 +1,6 @@
 import math
+import random
+import time
 
 import streamlit as st
 from decimal import Decimal, getcontext
@@ -11,6 +13,9 @@ st.set_page_config(
 )
 
 getcontext().prec = 5
+
+APP_VERSION = '02'
+APP_UPDATED = '2026-09-05'
 
 # 会員ランクの基本還元率（計算に使う値。変更しない）
 diamond = 0.03
@@ -36,6 +41,51 @@ st.markdown(
     .stAppDeployButton { display: none !important; }
     .block-container { padding-top: 1rem; padding-bottom: 2rem; max-width: 1000px; }
     h1 { font-size: 1.4rem !important; letter-spacing: 0.02em; margin-bottom: 0.1rem !important; }
+    .title-row {
+        display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
+        margin: 0 0 0.25rem;
+    }
+    .title-row .app-title {
+        font-size: 1.4rem; font-weight: 700; letter-spacing: 0.02em;
+        color: #1d2939; margin: 0; line-height: 1.3;
+    }
+    .ver-meta { color: #667085; font-size: 0.85rem; font-weight: 500; }
+    .ver-chip {
+        display: inline-block; background: #eef2f6; color: #344054;
+        border-radius: 999px; padding: 2px 9px; font-size: 0.78rem; font-weight: 700;
+    }
+    .manual-head {
+        font-size: 1.05rem; font-weight: 600; color: #1d2939;
+        margin: 0.15rem 0 0.65rem;
+    }
+    .hist-card {
+        background: #f8fafc; border: 1px solid #e4e7ec;
+        border-radius: 8px; padding: 10px 12px; margin-bottom: 10px;
+    }
+    .hist-ver { font-weight: 700; font-size: 0.9rem; color: #1d2939; }
+    .hist-date { color: #667085; font-size: 0.78rem; font-weight: 500; margin-left: 6px; }
+    .hist-card ul { margin: 6px 0 0 1.15rem; padding: 0; color: #344054; font-size: 0.82rem; }
+    .hist-card li { margin: 3px 0; }
+    .play-hint { color: #667085; font-size: 0.88rem; margin: 0 0 0.7rem; }
+    .slot-reel {
+        text-align: center; background: #fff7ed; border: 1px solid #f5d0b0;
+        border-radius: 12px; padding: 18px 8px 14px; min-height: 118px;
+    }
+    .slot-emoji { font-size: 2rem; line-height: 1.2; }
+    .slot-name { font-weight: 700; font-size: 1.05rem; margin-top: 8px; color: #1d2939; }
+    .slot-sub { color: #9a6b3d; font-size: 0.78rem; margin-top: 2px; }
+    .gacha-card {
+        background: linear-gradient(180deg, #fff7ed 0%, #fff 72%);
+        border: 1px solid #f5d0b0; border-radius: 12px; padding: 14px 16px;
+        margin-top: 12px;
+    }
+    .gacha-card.rare {
+        border-color: #e8b84a;
+        background: linear-gradient(180deg, #fff6d6 0%, #fff 72%);
+    }
+    .gacha-title { font-weight: 700; font-size: 1.05rem; color: #1d2939; }
+    .gacha-body { color: #344054; font-size: 0.9rem; margin-top: 6px; line-height: 1.55; }
+    .mem-stat { color: #475467; font-size: 0.88rem; }
     .col-head, .rate-line, .rate-chip, .hint { white-space: nowrap; }
     h5.section-title { margin-top: 1.6rem; margin-bottom: 0.35rem; font-size: 1.05rem; }
     div[role="radiogroup"] label, div[role="radiogroup"] p { white-space: nowrap !important; }
@@ -667,6 +717,11 @@ def render_product_tab():
 
 
 def render_manual_tab():
+    st.markdown(
+        f'<div class="manual-head">計算方法　'
+        f'<span class="ver-chip">Ver.{APP_VERSION}</span></div>',
+        unsafe_allow_html=True,
+    )
     st.markdown('''
 このツールは、注文や企画の付与ポイントを手元で検算するためのものです。
 端数はすべて**切り捨て**です。
@@ -679,6 +734,8 @@ def render_manual_tab():
 |---|---|
 | 受注設定 | 複数商品・利用ポイント・ビーンズクラブまで含めた、その注文の付与 |
 | 商品設定 | 税込1件だけで、ランク別・倍率・還元率・早見表を見る |
+| 変更履歴 | このツールのバージョンごとの変更 |
+| コーヒーブレイク | 産地神経衰弱と今日の一杯ルーレット |
 
 ---
 
@@ -792,13 +849,321 @@ def render_manual_tab():
 ''')
 
 
-st.title('付与ポイント計算ツール')
+def render_history_tab():
+    st.markdown(
+        f'<div class="manual-head">変更履歴　'
+        f'<span class="ver-chip">Ver.{APP_VERSION}</span></div>',
+        unsafe_allow_html=True,
+    )
+    st.markdown(
+        f'''
+<div class="hist-card">
+  <div><span class="hist-ver">Ver.{APP_VERSION}</span><span class="hist-date">{APP_UPDATED}</span></div>
+  <ul>
+    <li>タブ構成（受注設定／商品設定／計算方法／変更履歴／コーヒーブレイク）</li>
+    <li>商品行は必要なだけ追加</li>
+    <li>イベントに「還元率」（全ランク同一）を追加。任意％も可</li>
+    <li>倍率の選択肢に 15倍・20倍を追加</li>
+    <li>ビーンズクラブは会員スイッチ＋行の対象チェック</li>
+    <li>1行目が 0pt でも、ほかの行があれば合計を出す</li>
+    <li>計算式・端数（切り捨て）は Ver.01 と同じ</li>
+    <li>コーヒーブレイク（産地神経衰弱・今日の一杯ルーレット）</li>
+  </ul>
+</div>
+<div class="hist-card">
+  <div><span class="hist-ver">Ver.01</span><span class="hist-date">初版</span></div>
+  <ul>
+    <li>サイドバーで受注設定／商品設定を切替</li>
+    <li>商品は最大 10 件</li>
+    <li>イベントはポイント倍率（1〜10）のみ</li>
+    <li>ビーンズクラブは商品ごとに指定</li>
+    <li>1行目が 0pt だと合計も 0</li>
+  </ul>
+</div>
+        ''',
+        unsafe_allow_html=True,
+    )
 
-tab_order, tab_product, tab_manual = st.tabs(['受注設定', '商品設定', '計算方法'])
+
+PLAY_ORIGINS = [
+    ('ケニア', '🍋', '柑橘とワインのような酸'),
+    ('グアテマラ', '🍫', 'チョコレートとスパイス'),
+    ('エチオピア', '🌸', '花と紅茶のような香り'),
+    ('ブラジル', '🥜', 'ナッツと穏やかな甘み'),
+    ('コロンビア', '🍎', 'りんごのような明るさ'),
+    ('タンザニア', '🍓', 'ベリー系の酸と甘み'),
+    ('インドネシア', '🌿', 'ハーブと大地のコク'),
+    ('コスタリカ', '🍯', 'はちみつのような透明感'),
+]
+PLAY_ROASTS = [
+    ('浅煎り', '◎', '酸が立つ'),
+    ('中煎り', '○', 'バランス型'),
+    ('中深煎り', '●', '甘みとコク'),
+    ('深煎り', '◆', '苦みと余韻'),
+]
+PLAY_BREWS = [
+    ('ハンドドリップ', '☕'),
+    ('フレンチプレス', '🫖'),
+    ('エスプレッソ', '🫘'),
+    ('ネルドリップ', '🫖'),
+    ('水出し', '🧊'),
+]
+PLAY_SECRETS = {
+    ('ケニア', '浅煎り', 'ハンドドリップ'): ('部長の勝負豆', '朝の検算がはかどる一杯。柑橘が立つ。'),
+    ('エチオピア', '浅煎り', 'ネルドリップ'): ('花の季節', '香りが先に来る。午後のひと息に。'),
+    ('グアテマラ', '中煎り', 'フレンチプレス'): ('午後の定番', 'ココアっぽい。会議のあとに合う。'),
+    ('ブラジル', '深煎り', 'エスプレッソ'): ('倉庫の休憩', '短く濃い。次の箱を開ける前に。'),
+}
+
+
+def _init_memory():
+    deck = []
+    for i, (name, emoji, note) in enumerate(PLAY_ORIGINS):
+        for _ in range(2):
+            deck.append({
+                'pair': i,
+                'name': name,
+                'emoji': emoji,
+                'note': note,
+                'flipped': False,
+                'matched': False,
+            })
+    random.shuffle(deck)
+    st.session_state.play_deck = deck
+    st.session_state.play_tries = 0
+    st.session_state.play_matched = 0
+    st.session_state.play_started = time.time()
+    st.session_state.play_finished = None
+    st.session_state.play_need_hide = False
+    st.session_state.play_last_match = ''
+
+
+def _memory_click(idx):
+    deck = st.session_state.play_deck
+    card = deck[idx]
+    if card['matched'] or card['flipped'] or st.session_state.play_finished:
+        return
+    open_idxs = [i for i, c in enumerate(deck) if c['flipped'] and not c['matched']]
+    if len(open_idxs) >= 2:
+        return
+    card['flipped'] = True
+    open_idxs = [i for i, c in enumerate(deck) if c['flipped'] and not c['matched']]
+    if len(open_idxs) != 2:
+        return
+    st.session_state.play_tries += 1
+    a, b = open_idxs
+    if deck[a]['pair'] == deck[b]['pair']:
+        deck[a]['matched'] = True
+        deck[b]['matched'] = True
+        st.session_state.play_matched += 1
+        st.session_state.play_last_match = f"{deck[a]['emoji']} {deck[a]['name']}　{deck[a]['note']}"
+        if st.session_state.play_matched >= len(PLAY_ORIGINS):
+            elapsed = int(time.time() - st.session_state.play_started)
+            st.session_state.play_finished = elapsed
+            best = st.session_state.get('play_best')
+            if best is None or st.session_state.play_tries < best[0] or (
+                st.session_state.play_tries == best[0] and elapsed < best[1]
+            ):
+                st.session_state.play_best = (st.session_state.play_tries, elapsed)
+    else:
+        st.session_state.play_need_hide = True
+
+
+def render_memory_game():
+    if 'play_deck' not in st.session_state:
+        _init_memory()
+
+    deck = st.session_state.play_deck
+    if st.session_state.play_finished is None:
+        elapsed = int(time.time() - st.session_state.play_started)
+    else:
+        elapsed = st.session_state.play_finished
+
+    top_a, top_b, top_c = st.columns([1.2, 1, 1])
+    with top_a:
+        st.markdown(
+            f'<div class="mem-stat">揃えた　'
+            f'{st.session_state.play_matched} / {len(PLAY_ORIGINS)}</div>',
+            unsafe_allow_html=True,
+        )
+    with top_b:
+        st.markdown(
+            f'<div class="mem-stat">手数　{st.session_state.play_tries}</div>',
+            unsafe_allow_html=True,
+        )
+    with top_c:
+        st.markdown(
+            f'<div class="mem-stat">時間　{elapsed}秒</div>',
+            unsafe_allow_html=True,
+        )
+
+    if st.session_state.play_finished is not None:
+        best = st.session_state.get('play_best', (st.session_state.play_tries, elapsed))
+        st.success(
+            f'全部揃いました。{st.session_state.play_tries}手 / {elapsed}秒'
+            f'　（自己ベスト {best[0]}手 / {best[1]}秒）'
+        )
+    elif st.session_state.play_last_match:
+        st.caption(st.session_state.play_last_match)
+
+    for row in range(4):
+        cols = st.columns(4)
+        for col, idx in zip(cols, range(row * 4, row * 4 + 4)):
+            card = deck[idx]
+            if card['matched']:
+                label = f"{card['emoji']} {card['name']}"
+                disabled = True
+                kind = 'primary'
+            elif card['flipped']:
+                label = f"{card['emoji']} {card['name']}"
+                disabled = True
+                kind = 'primary'
+            else:
+                label = '☕'
+                disabled = bool(st.session_state.play_finished)
+                kind = 'secondary'
+            with col:
+                st.button(
+                    label,
+                    key=f'mem_{idx}_{st.session_state.play_started}',
+                    use_container_width=True,
+                    disabled=disabled,
+                    type=kind,
+                    on_click=_memory_click,
+                    args=(idx,),
+                )
+
+    if st.button('もう一局', key='mem_reset'):
+        _init_memory()
+        st.rerun()
+
+    if st.session_state.play_need_hide:
+        time.sleep(0.7)
+        for card in st.session_state.play_deck:
+            if not card['matched']:
+                card['flipped'] = False
+        st.session_state.play_need_hide = False
+        st.rerun()
+
+
+def render_roulette():
+    if 'play_spin' not in st.session_state:
+        st.session_state.play_spin = None
+    if 'play_album' not in st.session_state:
+        st.session_state.play_album = []
+    if 'play_spins' not in st.session_state:
+        st.session_state.play_spins = 0
+
+    if st.button('豆を挽く', type='primary', key='play_spin_btn'):
+        origin = random.choice(PLAY_ORIGINS)
+        roast = random.choice(PLAY_ROASTS)
+        brew = random.choice(PLAY_BREWS)
+        key = (origin[0], roast[0], brew[0])
+        secret = PLAY_SECRETS.get(key)
+        st.session_state.play_spin = (origin, roast, brew, secret)
+        st.session_state.play_spins += 1
+        combo = f'{origin[0]} / {roast[0]} / {brew[0]}'
+        if combo not in st.session_state.play_album:
+            st.session_state.play_album.append(combo)
+
+    spin = st.session_state.play_spin
+    if spin is None:
+        st.markdown(
+            '<p class="play-hint">産地・焙煎・抽出が決まります。</p>',
+            unsafe_allow_html=True,
+        )
+    else:
+        origin, roast, brew, secret = spin
+        c1, c2, c3 = st.columns(3)
+        with c1:
+            st.markdown(
+                f'<div class="slot-reel"><div class="slot-emoji">{origin[1]}</div>'
+                f'<div class="slot-name">{origin[0]}</div>'
+                f'<div class="slot-sub">{origin[2]}</div></div>',
+                unsafe_allow_html=True,
+            )
+        with c2:
+            st.markdown(
+                f'<div class="slot-reel"><div class="slot-emoji">{roast[1]}</div>'
+                f'<div class="slot-name">{roast[0]}</div>'
+                f'<div class="slot-sub">{roast[2]}</div></div>',
+                unsafe_allow_html=True,
+            )
+        with c3:
+            st.markdown(
+                f'<div class="slot-reel"><div class="slot-emoji">{brew[1]}</div>'
+                f'<div class="slot-name">{brew[0]}</div>'
+                f'<div class="slot-sub">抽出</div></div>',
+                unsafe_allow_html=True,
+            )
+        if secret:
+            title, body = secret
+            st.markdown(
+                f'<div class="gacha-card rare"><div class="gacha-title">✦ {title}</div>'
+                f'<div class="gacha-body">{body}</div></div>',
+                unsafe_allow_html=True,
+            )
+        else:
+            st.markdown(
+                f'<div class="gacha-card"><div class="gacha-title">'
+                f'今日の一杯　{origin[0]}の{roast[0]}</div>'
+                f'<div class="gacha-body">{origin[2]}。{roast[2]}を、{brew[0]}で。</div></div>',
+                unsafe_allow_html=True,
+            )
+
+    found = len(st.session_state.get('play_album', []))
+    total = len(PLAY_ORIGINS) * len(PLAY_ROASTS) * len(PLAY_BREWS)
+    st.caption(
+        f'挽いた回数 {st.session_state.get("play_spins", 0)}　／　'
+        f'見つけた組み合わせ {found} / {total}'
+    )
+    if st.session_state.get('play_album'):
+        with st.expander('見つけた組み合わせ'):
+            for item in reversed(st.session_state.play_album):
+                mark = '✦ ' if tuple(item.split(' / ')) in PLAY_SECRETS else ''
+                st.write(f'- {mark}{item}')
+
+
+def render_play_tab():
+    st.markdown('<div class="manual-head">コーヒーブレイク</div>', unsafe_allow_html=True)
+    mode = st.radio(
+        '遊び',
+        ['産地神経衰弱', '今日の一杯ルーレット'],
+        horizontal=True,
+        label_visibility='collapsed',
+        key='play_mode',
+    )
+    if mode == '産地神経衰弱':
+        st.caption('同じ産地を2枚揃える。ケニア、グアテマラ、エチオピアなど 8 産地。')
+        render_memory_game()
+    else:
+        render_roulette()
+
+
+st.markdown(
+    f'''
+    <div class="title-row">
+      <div class="app-title">付与ポイント計算ツール</div>
+      <span class="ver-meta">
+        <span class="ver-chip">Ver.{APP_VERSION}</span>
+        更新 {APP_UPDATED}
+      </span>
+    </div>
+    ''',
+    unsafe_allow_html=True,
+)
+
+tab_order, tab_product, tab_manual, tab_hist, tab_play = st.tabs(
+    ['受注設定', '商品設定', '計算方法', '変更履歴', 'コーヒーブレイク']
+)
 with tab_order:
     render_order_tab()
 with tab_product:
     render_product_tab()
 with tab_manual:
     render_manual_tab()
+with tab_hist:
+    render_history_tab()
+with tab_play:
+    render_play_tab()
 
