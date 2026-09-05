@@ -46,11 +46,11 @@ st.markdown(
     }
     header[data-testid="stHeader"] { display: none !important; }
     .stAppDeployButton { display: none !important; }
-    .block-container { padding-top: 1rem; padding-bottom: 2rem; max-width: 1000px; }
+    .block-container { padding-top: 1.6rem; padding-bottom: 2rem; max-width: 1000px; }
     h1 { font-size: 1.75rem !important; letter-spacing: 0.02em; margin-bottom: 0.1rem !important; }
     .title-row {
-        display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
-        margin: 0 0 0.25rem;
+        display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap;
+        margin: 0 0 1rem;
     }
     .title-row .app-title {
         font-size: 1.75rem; font-weight: 700; letter-spacing: 0.02em;
@@ -65,9 +65,17 @@ st.markdown(
         font-size: 1.28rem; font-weight: 600; color: #1d2939;
         margin: 0.15rem 0 0.65rem;
     }
+    [data-testid="stTabs"] {
+        margin-top: 0.15rem;
+    }
     [data-testid="stTabs"] button,
     button[data-baseweb="tab"] {
         font-size: 1.08rem !important;
+        padding: 0.7rem 1.15rem !important;
+    }
+    [data-testid="stTabs"] [role="tablist"] {
+        gap: 0.35rem !important;
+        margin-bottom: 0.85rem !important;
     }
     .hist-card {
         background: #f8fafc; border: 1px solid #e4e7ec;
