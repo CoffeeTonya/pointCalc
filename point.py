@@ -44,6 +44,32 @@ st.markdown(
         font-family: "Yu Gothic UI", "Yu Gothic", "Hiragino Sans",
             "Hiragino Kaku Gothic ProN", "Noto Sans JP", Meiryo, sans-serif !important;
     }
+    :root {
+        --ink: var(--text-color, var(--textColor, #1d2939));
+        --muted: color-mix(in srgb, var(--text-color, #1d2939) 62%, var(--background-color, #ffffff));
+        --soft: color-mix(in srgb, var(--text-color, #1d2939) 82%, var(--background-color, #ffffff));
+        --surface: var(--background-color, #ffffff);
+        --surface-2: var(--secondary-background-color, #f8fafc);
+        --line: color-mix(in srgb, var(--text-color, #1d2939) 16%, var(--background-color, #ffffff));
+        --accent: var(--primary-color, var(--primaryColor, #1f77b4));
+        --result-bg: color-mix(in srgb, var(--primary-color, #1f77b4) 14%, var(--background-color, #ffffff));
+        --zero-bg: var(--secondary-background-color, #f5f5f5);
+        --zero-fg: color-mix(in srgb, var(--text-color, #1d2939) 52%, var(--background-color, #ffffff));
+    }
+    html[data-theme="dark"],
+    html[data-theme="dark"] .stApp,
+    .stApp[data-theme="dark"] {
+        --ink: var(--text-color, var(--textColor, #f2f4f7));
+        --muted: color-mix(in srgb, var(--text-color, #f2f4f7) 72%, var(--background-color, #0e1117));
+        --soft: color-mix(in srgb, var(--text-color, #f2f4f7) 88%, var(--background-color, #0e1117));
+        --surface: var(--background-color, #0e1117);
+        --surface-2: var(--secondary-background-color, #262730);
+        --line: color-mix(in srgb, var(--text-color, #f2f4f7) 20%, var(--background-color, #0e1117));
+        --accent: var(--primary-color, var(--primaryColor, #8ecbff));
+        --result-bg: color-mix(in srgb, var(--primary-color, #8ecbff) 18%, var(--background-color, #0e1117));
+        --zero-bg: var(--secondary-background-color, #262730);
+        --zero-fg: color-mix(in srgb, var(--text-color, #f2f4f7) 58%, var(--background-color, #0e1117));
+    }
     header[data-testid="stHeader"] { display: none !important; }
     .stAppDeployButton { display: none !important; }
     .block-container { padding-top: 1.6rem; padding-bottom: 2rem; max-width: 1000px; }
@@ -54,15 +80,15 @@ st.markdown(
     }
     .title-row .app-title {
         font-size: 1.75rem; font-weight: 700; letter-spacing: 0.02em;
-        color: #1d2939; margin: 0; line-height: 1.3;
+        color: var(--ink); margin: 0; line-height: 1.3;
     }
-    .ver-meta { color: #667085; font-size: 1rem; font-weight: 500; }
+    .ver-meta { color: var(--muted); font-size: 1rem; font-weight: 500; }
     .ver-chip {
-        display: inline-block; background: #eef2f6; color: #344054;
+        display: inline-block; background: var(--surface-2); color: var(--soft);
         border-radius: 999px; padding: 3px 11px; font-size: 0.92rem; font-weight: 700;
     }
     .manual-head {
-        font-size: 1.28rem; font-weight: 600; color: #1d2939;
+        font-size: 1.28rem; font-weight: 600; color: var(--ink);
         margin: 0.15rem 0 0.65rem;
     }
     [data-testid="stTabs"] {
@@ -70,7 +96,7 @@ st.markdown(
     }
     [data-testid="stTabs"] [role="tablist"] {
         gap: 6px !important;
-        border-bottom: 1px solid #d0d5dd;
+        border-bottom: 1px solid var(--line);
         padding: 0 2px;
         align-items: flex-end !important;
     }
@@ -80,9 +106,9 @@ st.markdown(
         letter-spacing: 0.06em !important;
         padding: 0.72rem 1.45rem !important;
         margin: 0 0 -1px 0 !important;
-        background: #eef2f6 !important;
-        color: #667085 !important;
-        border: 1px solid #d0d5dd !important;
+        background: var(--surface-2) !important;
+        color: var(--muted) !important;
+        border: 1px solid var(--line) !important;
         border-bottom-color: transparent !important;
         border-radius: 10px 10px 0 0 !important;
         cursor: pointer;
@@ -95,14 +121,14 @@ st.markdown(
         color: inherit !important;
     }
     [data-testid="stTab"]:hover {
-        background: #f8fafc !important;
-        color: #344054 !important;
+        background: var(--surface) !important;
+        color: var(--soft) !important;
     }
     [data-testid="stTab"][aria-selected="true"],
     [data-testid="stTab"][data-selected="true"] {
-        background: #fff !important;
-        color: #1d2939 !important;
-        border-bottom-color: #fff !important;
+        background: var(--surface) !important;
+        color: var(--ink) !important;
+        border-bottom-color: var(--surface) !important;
         font-weight: 700 !important;
         position: relative;
         z-index: 1;
@@ -116,12 +142,12 @@ st.markdown(
         display: none !important;
     }
     .hist-card {
-        background: #f8fafc; border: 1px solid #e4e7ec;
+        background: var(--surface-2); border: 1px solid var(--line);
         border-radius: 8px; padding: 10px 12px; margin-bottom: 10px;
     }
-    .hist-ver { font-weight: 700; font-size: 0.9rem; color: #1d2939; }
-    .hist-date { color: #667085; font-size: 0.78rem; font-weight: 500; margin-left: 6px; }
-    .hist-card ul { margin: 6px 0 0 1.15rem; padding: 0; color: #344054; font-size: 0.82rem; }
+    .hist-ver { font-weight: 700; font-size: 0.9rem; color: var(--ink); }
+    .hist-date { color: var(--muted); font-size: 0.78rem; font-weight: 500; margin-left: 6px; }
+    .hist-card ul { margin: 6px 0 0 1.15rem; padding: 0; color: var(--soft); font-size: 0.82rem; }
     .hist-card li { margin: 3px 0; }
     .slot-stage {
         background: linear-gradient(165deg, #4a3124 0%, #2c1b12 100%);
@@ -177,17 +203,18 @@ st.markdown(
     .slot-cell .slot-name { margin-top: 6px; }
     .slot-sub { color: #9a6b3d; font-size: 0.78rem; margin-top: 2px; }
     .gacha-card {
-        background: linear-gradient(180deg, #fff7ed 0%, #fff 72%);
-        border: 1px solid #f5d0b0; border-radius: 12px; padding: 14px 16px;
+        background: color-mix(in srgb, #c2410c 8%, var(--surface));
+        border: 1px solid color-mix(in srgb, #c2410c 28%, var(--line));
+        border-radius: 12px; padding: 14px 16px;
         margin-top: 12px;
     }
     .gacha-card.rare {
-        border-color: #e8b84a;
-        background: linear-gradient(180deg, #fff6d6 0%, #fff 72%);
+        border-color: color-mix(in srgb, #e8b84a 70%, var(--line));
+        background: color-mix(in srgb, #e8b84a 16%, var(--surface));
     }
-    .gacha-title { font-weight: 700; font-size: 1.05rem; color: #1d2939; }
-    .gacha-body { color: #344054; font-size: 0.9rem; margin-top: 6px; line-height: 1.55; }
-    .mem-stat { color: #475467; font-size: 0.88rem; }
+    .gacha-title { font-weight: 700; font-size: 1.05rem; color: var(--ink); }
+    .gacha-body { color: var(--soft); font-size: 0.9rem; margin-top: 6px; line-height: 1.55; }
+    .mem-stat { color: var(--muted); font-size: 0.88rem; }
     .st-key-mem_board {
         background: linear-gradient(165deg, #1f5136 0%, #143325 100%) !important;
         border-radius: 16px !important;
@@ -318,49 +345,50 @@ st.markdown(
         padding: 0.55rem 0.75rem !important;
     }
     div[data-testid="stVerticalBlockBorderWrapper"] > div { gap: 0.4rem !important; }
-    .hint { color: #667085; font-size: 0.9rem; }
-    .out-label { color: #667085; font-size: 0.75rem; margin-bottom: 2px; }
-    .out-value { font-size: 1.2rem; font-weight: 600; color: #1d2939; padding: 4px 0 0; }
+    .hint { color: var(--muted); font-size: 0.9rem; }
+    .out-label { color: var(--muted); font-size: 0.75rem; margin-bottom: 2px; }
+    .out-value { font-size: 1.2rem; font-weight: 600; color: var(--ink); padding: 4px 0 0; }
     .col-head {
-        color: #667085; font-size: 0.75rem; font-weight: 600;
+        color: var(--muted); font-size: 0.75rem; font-weight: 600;
         letter-spacing: 0.02em; padding: 0 0 6px 2px;
     }
     .cell-out {
-        font-size: 1.15rem; font-weight: 600; color: #1d2939;
+        font-size: 1.15rem; font-weight: 600; color: var(--ink);
         padding-top: 0.55rem; white-space: nowrap;
     }
-    .cell-num { color: #98a2b3; font-size: 0.85rem; padding-top: 0.7rem; }
+    .cell-num { color: var(--muted); font-size: 0.85rem; padding-top: 0.7rem; }
     .rate-chip {
-        display: inline-block; background: #f2f4f7; color: #344054;
+        display: inline-block; background: var(--surface-2); color: var(--soft);
         border-radius: 999px; padding: 4px 10px; font-size: 0.85rem; font-weight: 600;
     }
     .result-card {
-        background: #f0f7ff; border-left: 4px solid #1f77b4;
+        background: var(--result-bg); border-left: 4px solid var(--accent);
         border-radius: 8px; padding: 10px 14px;
     }
-    .result-card.zero { background: #f5f5f5; border-left-color: #999; }
-    .result-label { color: #667085; font-size: 0.95rem; margin-bottom: 6px; }
-    .result-value { font-size: 1.75rem; font-weight: 700; color: #1f77b4; }
-    .result-card.zero .result-value { color: #999; }
-    .result-sub { color: #475467; font-size: 0.85rem; margin-top: 8px; }
+    .result-card.zero { background: var(--zero-bg); border-left-color: var(--zero-fg); }
+    .result-label { color: var(--muted); font-size: 0.95rem; margin-bottom: 6px; }
+    .result-value { font-size: 1.75rem; font-weight: 700; color: var(--accent); }
+    .result-card.zero .result-value { color: var(--zero-fg); }
+    .result-sub { color: var(--soft); font-size: 0.85rem; margin-top: 8px; }
     table.result-table {
         width: 100%; border-collapse: collapse; font-size: 0.95rem;
+        color: var(--ink);
     }
     table.result-table th {
-        text-align: left; color: #667085; font-weight: 600;
+        text-align: left; color: var(--muted); font-weight: 600;
         font-size: 0.75rem; padding: 6px 8px;
-        border-bottom: 1px solid #e4e7ec;
+        border-bottom: 1px solid var(--line);
     }
     table.result-table td {
-        padding: 7px 8px; border-bottom: 1px solid #f2f4f7;
+        padding: 7px 8px; border-bottom: 1px solid var(--line);
         vertical-align: middle;
     }
-    table.result-table td.rate { color: #475467; }
+    table.result-table td.rate { color: var(--soft); }
     table.result-table td.pt {
         font-weight: 700; font-size: 1.2rem; text-align: right;
-        color: #1f77b4; font-variant-numeric: tabular-nums;
+        color: var(--accent); font-variant-numeric: tabular-nums;
     }
-    table.result-table tr.hl td { background: #f0f7ff; }
+    table.result-table tr.hl td { background: var(--result-bg); }
     table.look-table td.pt { font-size: 1.05rem; font-weight: 600; }
     div[data-testid="stMetricValue"] { font-size: 1.35rem; }
     /* 金額は手入力が主。±ボタンを消して欄を狭くする */
@@ -370,6 +398,33 @@ st.markdown(
     """,
     unsafe_allow_html=True,
 )
+
+# Streamlit のライト／ダークに合わせて、カスタム文字色を上書きする
+_theme_is_dark = False
+try:
+    _theme_is_dark = str(getattr(st.context.theme, 'type', '') or '').lower() == 'dark'
+except Exception:
+    _theme_is_dark = False
+if _theme_is_dark:
+    st.markdown(
+        """
+        <style>
+        :root, .stApp {
+            --ink: var(--text-color, #f2f4f7);
+            --muted: color-mix(in srgb, var(--text-color, #f2f4f7) 72%, var(--background-color, #0e1117));
+            --soft: color-mix(in srgb, var(--text-color, #f2f4f7) 88%, var(--background-color, #0e1117));
+            --surface: var(--background-color, #0e1117);
+            --surface-2: var(--secondary-background-color, #262730);
+            --line: color-mix(in srgb, var(--text-color, #f2f4f7) 20%, var(--background-color, #0e1117));
+            --accent: var(--primary-color, #8ecbff);
+            --result-bg: color-mix(in srgb, var(--primary-color, #8ecbff) 18%, var(--background-color, #0e1117));
+            --zero-bg: var(--secondary-background-color, #262730);
+            --zero-fg: color-mix(in srgb, var(--text-color, #f2f4f7) 58%, var(--background-color, #0e1117));
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
 
 
 def as_amount(value):
